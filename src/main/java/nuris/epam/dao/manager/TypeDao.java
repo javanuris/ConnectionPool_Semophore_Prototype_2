@@ -6,11 +6,11 @@ import nuris.epam.dao.mysql.MySqlAuthorDao;
 /**
  * Created by User on 11.03.2017.
  */
-public class TypeDB {
-    private static TypeDB typeDB;
+public class TypeDao {
+    private static TypeDao typeDao;
     private ConnectionPool connectType;
 
-    private TypeDB() {
+    private TypeDao() {
         connectType = ConnectionPool.getInstance();
     }
 
@@ -22,10 +22,10 @@ public class TypeDB {
         }
     }
 
-    public static TypeDB getInstance() {
-        if (typeDB == null) {
-            typeDB = new TypeDB();
+    public static TypeDao getInstance() {
+        if (typeDao == null) {
+            typeDao = new TypeDao();
         }
-        return typeDB;
+        return typeDao;
     }
 }

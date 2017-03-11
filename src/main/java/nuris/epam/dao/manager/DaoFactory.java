@@ -1,9 +1,6 @@
 package nuris.epam.dao.manager;
-
-
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.dao.BaseDao;
-
 import java.sql.Connection;
 
 /**
@@ -14,13 +11,15 @@ public class DaoFactory {
     private static DaoFactory daoFactory;
     private ConnectionPool connectionPool;
     private Connection connection;
+    private TypeDao typeDao;
 
     private DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
+        typeDao = TypeDao.getInstance();
         connection = connectionPool.getConnection();
     }
 
-   public <T extends BaseDao> T getDao(Class<T> clazz) throws Exception {
+    public <T extends BaseDao> T getDao(Class<T> clazz) throws Exception {
         T t;
         try {
             t = clazz.newInstance();
@@ -32,6 +31,13 @@ public class DaoFactory {
         return t;
     }
 
+    public void returnConnect(){
+        connectionPool.returnConnection(connection);
+    }
+
+    public TypeDao getTypeDao() {
+        return typeDao;
+    }
 
     public static DaoFactory getInstance() {
         if (null == daoFactory) {

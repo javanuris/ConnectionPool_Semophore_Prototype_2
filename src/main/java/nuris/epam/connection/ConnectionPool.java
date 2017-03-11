@@ -36,6 +36,7 @@ public class ConnectionPool {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     private void loadProperties() {
@@ -49,6 +50,7 @@ public class ConnectionPool {
         } catch (IOException e) {
             throw new NoDBPropertiesException("Can't read file", e);
         }
+
     }
 
     public Connection getConnection() {
@@ -57,8 +59,8 @@ public class ConnectionPool {
         } catch (ResourcesException e) {
             throw new RuntimeException("Error in a getConnection() , don't avalible connect", e);
         }
-    }
 
+    }
     public void returnConnection(Connection connection) {
         connections.returnResource(connection);
         System.out.println("return connect");
@@ -69,6 +71,10 @@ public class ConnectionPool {
             connectionPool = new ConnectionPool();
         }
         return connectionPool;
+    }
+
+    public int size() {
+        return connections.size();
     }
 
     public String getType() {
