@@ -4,8 +4,11 @@ package nuris.epam.entity;
  * Created by User on 09.03.2017.
  */
 public class Author extends BaseEntity{
+
     private String firstName;
+
     private String lastName;
+
     private String middle_name;
 
 

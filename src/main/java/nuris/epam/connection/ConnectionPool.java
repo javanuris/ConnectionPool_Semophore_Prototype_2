@@ -1,8 +1,7 @@
 package nuris.epam.connection;
 
-import nuris.epam.dao.exception.NoDBPropertiesException;
+import nuris.epam.dao.exception.PropertiesException;
 import nuris.epam.dao.exception.ResourcesException;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +17,7 @@ public class ConnectionPool {
     private String url;
     private String type;
     private static ConnectionPool connectionPool;
-    private final static int CONNECTION_POOL_SIZE = 5;
+    private final static int POOL_SIZE = 5;
     private ResourcesQueue<Connection> connections = null;
 
     private ConnectionPool() {
@@ -26,20 +25,21 @@ public class ConnectionPool {
     }
 
     private void init() {
-        loadProperties();
-        connections = new ResourcesQueue<Connection>(CONNECTION_POOL_SIZE);
         try {
-            while (connections.size() < CONNECTION_POOL_SIZE) {
+            loadProperties();
+            connections = new ResourcesQueue<Connection>(POOL_SIZE);
+            while (connections.size() < POOL_SIZE) {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 connections.addResource(connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch (PropertiesException e) {
+            e.printStackTrace();
         }
-
     }
 
-    private void loadProperties() {
+    private void loadProperties() throws PropertiesException {
         Properties properties = new Properties();
         try {
             properties.load(ConnectionPool.class.getResourceAsStream("/db.properties"));
@@ -48,9 +48,8 @@ public class ConnectionPool {
             url = properties.getProperty("url");
             type = properties.getProperty("type");
         } catch (IOException e) {
-            throw new NoDBPropertiesException("Can't read file", e);
+            throw new PropertiesException("Not found properties file with connecting settings" , e);
         }
-
     }
 
     public Connection getConnection() {
@@ -59,11 +58,10 @@ public class ConnectionPool {
         } catch (ResourcesException e) {
             throw new RuntimeException("Error in a getConnection() , don't avalible connect", e);
         }
-
     }
+
     public void returnConnection(Connection connection) {
         connections.returnResource(connection);
-        System.out.println("return connect");
     }
 
     public static ConnectionPool getInstance() {

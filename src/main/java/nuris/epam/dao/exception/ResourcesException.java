@@ -5,8 +5,6 @@ package nuris.epam.dao.exception;
  */
 public class ResourcesException extends Exception {
 
-    public ResourcesException() {}
-
     public ResourcesException(String message, Throwable cause) {
         super(message, cause);
     }
@@ -14,8 +12,5 @@ public class ResourcesException extends Exception {
     public ResourcesException(String message) {
         super(message);
     }
-
-    public ResourcesException(Throwable cause){
-        super(cause);
-    }
 }
+

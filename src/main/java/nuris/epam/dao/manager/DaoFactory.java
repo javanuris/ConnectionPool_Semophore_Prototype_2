@@ -1,6 +1,9 @@
 package nuris.epam.dao.manager;
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.dao.BaseDao;
+import nuris.epam.dao.exception.DaoException;
+import nuris.epam.entity.BaseEntity;
+
 import java.sql.Connection;
 
 /**
@@ -19,14 +22,14 @@ public class DaoFactory {
         connection = connectionPool.getConnection();
     }
 
-    public <T extends BaseDao> T getDao(Class<T> clazz) throws Exception {
+    public <T extends BaseDao<BaseEntity>> T getDao(Class<T> clazz) throws DaoException {
         T t;
         try {
             t = clazz.newInstance();
             t.setConnection(connection);
 
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new Exception();
+            throw new DaoException("Cant to create or give new DAO object" , e);
         }
         return t;
     }
@@ -35,7 +38,7 @@ public class DaoFactory {
         connectionPool.returnConnection(connection);
     }
 
-    public TypeDao getTypeDao() {
+    public TypeDao typeDao() {
         return typeDao;
     }
 

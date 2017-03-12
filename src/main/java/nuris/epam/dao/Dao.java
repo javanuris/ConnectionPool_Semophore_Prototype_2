@@ -5,7 +5,7 @@ import nuris.epam.entity.BaseEntity;
 import java.util.List;
 
 public interface Dao<T extends BaseEntity> {
-    int insert(T e);
+    T insert(T item);
 
     T findById(int id);
 
@@ -13,7 +13,6 @@ public interface Dao<T extends BaseEntity> {
 
     List<T> getAll();
 
-    void delete(int id);
-
     void delete(T item);
+
 }

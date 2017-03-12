@@ -32,9 +32,9 @@ public class ResourcesQueue<T> {
                return res;
            }
         } catch (InterruptedException e) {
-            throw new ResourcesException(e);
+            throw new ResourcesException("You didn't wait for connect bro." ,e);
         }
-        throw new ResourcesException("You didn't wait for connect bro.");
+        throw new ResourcesException("You didn't wait for connect bro." );
     }
 
     public void returnResource(T res) {
