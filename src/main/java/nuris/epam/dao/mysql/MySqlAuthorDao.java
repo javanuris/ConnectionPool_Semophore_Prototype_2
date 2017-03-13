@@ -11,11 +11,10 @@ import java.sql.Statement;
 import java.util.List;
 
 public class MySqlAuthorDao extends AuthorDao{
-    private static final String FIND_BY_ID = "select * from author where id_author = ?";
-    private static final String INSERT ="insert into author values(id_author ,?, ?, ?)";
-    private static final String UPDATE ="update author set first_name = ? , last_name =? ,middle_name=? where id_author= ?";
-    private static final String DELETE = "delete from author where id_author = ?";
-    private static final String SELECT_ALL = "select * from author";
+    private static final String FIND_BY_ID = Sql.create().select().allFrom().var("author").whereQs("id_author").build();
+    private static final String INSERT = Sql.create().insert().var("author").values("id_author", 3).build();
+    private static final String UPDATE = Sql.create().update().var("author").set().varQs("first_name").c().varQs("last_name").c().varQs("middle_name").whereQs("id_author").build();
+    private static final String DELETE = Sql.create().delete().var("author").whereQs("id_author").build();
     @Override
     public Author insert(Author item) {
         try {

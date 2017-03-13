@@ -1,18 +1,19 @@
 package nuris.epam.dao;
 
+import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.BaseEntity;
 
 import java.util.List;
 
 public interface Dao<T extends BaseEntity> {
-    T insert(T item);
+    T insert(T item) throws DaoException;
 
-    T findById(int id);
+    T findById(int id)throws DaoException;
 
-    void update(T item);
+    void update(T item)throws DaoException;
 
-    List<T> getAll();
+    List<T> getAll()throws DaoException;
 
-    void delete(T item);
+    void delete(T item)throws DaoException;
 
 }

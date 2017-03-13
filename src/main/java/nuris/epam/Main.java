@@ -16,7 +16,7 @@ public class Main {
         author1.setLastName("Nuris");
         author1.setMiddle_name("Nuris");
         author1.setId(1);
-        Author author =  (Author) authorDao.findById(1);
+        Author author =  (Author) authorDao.findById(2);
 
         System.out.println(author.getId()+"/"+author.getLastName()+"/"+author.getFirstName()+"/"+author.getMiddle_name());
     }
