@@ -1,4 +1,5 @@
 package nuris.epam;
+import nuris.epam.connection.ConnectionPool;
 import nuris.epam.dao.BaseDao;
 import nuris.epam.dao.manager.DaoFactory;
 import nuris.epam.dao.mysql.Sql;
@@ -15,9 +16,21 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
+        ConnectionPool connectionPool = ConnectionPool.getInstance();
+
         List<Genre> list = new ArrayList<>();
-        DaoFactory daoFactory = DaoFactory.getInstance();
+        DaoFactory daoFactory =new DaoFactory();
+        DaoFactory daoFactory1 =new DaoFactory();
+        DaoFactory daoFactory2 =new DaoFactory();
+        DaoFactory daoFactory3 =new DaoFactory();
+        daoFactory.returnConnect();
+        DaoFactory daoFactory4 =new DaoFactory();
+        DaoFactory daoFactory6 =new DaoFactory();
+
         BaseDao genreDao = daoFactory.getDao(daoFactory.typeDao().getGenreDao());
+
+        System.out.println(connectionPool.size());
+        System.out.println(genreDao.findById(1));
 
 
 

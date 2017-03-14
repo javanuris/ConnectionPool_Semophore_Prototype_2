@@ -103,6 +103,7 @@ public class ConnectionPool {
      * Возвращяет коннект в список пулов соеденений.
      */
     public void returnConnection(Connection connection) {
+
         connections.returnResource(connection);
     }
 
@@ -125,5 +126,9 @@ public class ConnectionPool {
      */
     public String getType() {
         return type;
+    }
+
+    public int size(){
+        return connections.size();
     }
 }

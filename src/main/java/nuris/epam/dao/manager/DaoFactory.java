@@ -10,17 +10,16 @@ import java.sql.Connection;
  * Created by User on 10.03.2017.
  */
 public class DaoFactory {
-
-    private static DaoFactory daoFactory;
     private ConnectionPool connectionPool;
-    private Connection connection;
+    private  Connection connection;
     private TypeDao typeDao;
 
-    private DaoFactory() {
+    public DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
         typeDao = TypeDao.getInstance();
         connection = connectionPool.getConnection();
     }
+
 
     public <T extends BaseDao<BaseEntity>> T getDao(Class<T> clazz) throws DaoException {
         T t;
@@ -42,12 +41,6 @@ public class DaoFactory {
         return typeDao;
     }
 
-    public static DaoFactory getInstance() {
-        if (null == daoFactory) {
-            daoFactory = new DaoFactory();
-        }
-        return daoFactory;
-    }
 
 
 }
