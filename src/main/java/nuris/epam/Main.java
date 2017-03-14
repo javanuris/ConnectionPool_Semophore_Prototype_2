@@ -4,6 +4,8 @@ import nuris.epam.dao.manager.DaoFactory;
 import nuris.epam.dao.mysql.Sql;
 import nuris.epam.entity.Author;
 import nuris.epam.entity.BaseEntity;
+import nuris.epam.entity.Genre;
+import nuris.epam.entity.Publisher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,25 +15,12 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-
+        List<Genre> list = new ArrayList<>();
         DaoFactory daoFactory = DaoFactory.getInstance();
-        BaseDao author2 = daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
-        Author authorefe= new Author();
+        BaseDao genreDao = daoFactory.getDao(daoFactory.typeDao().getGenreDao());
 
-        authorefe.setFirstName("Puskin");
-        authorefe.setMiddle_name("Lev");
-        authorefe.setLastName("Aleksandra");
-        author2.insert(authorefe);
 
-        System.out.println(author2.findById(5)+" -----------");
 
-        List<Author> list = author2.getAll();
-        for(Author author : list){
-            System.out.println(author);
-        }
-        System.out.println(list.size());
-        System.out.println(Sql.create().select().allFrom().var("author").build());
-        System.out.println();
     }
 
 }

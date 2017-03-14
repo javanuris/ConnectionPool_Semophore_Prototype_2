@@ -30,11 +30,10 @@ public class MySqlAuthorDao extends AuthorDao {
     public Author insert(Author item) throws DaoException {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(INSERT)) {
-                statement(statement, item, 0, 1, 2, 3);
-                statement.executeUpdate();
+                statement(statement, item, 0, 1, 2, 3).executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from AuthorDAO" + item, e);
+            throw new DaoException("Can not insert by entity from "+this.getClass().getSimpleName()+"/" + item, e);
         }
         return item;
     }
@@ -51,9 +50,8 @@ public class MySqlAuthorDao extends AuthorDao {
                     }
                 }
             }
-
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from AuthorDAO " + id, e);
+            throw new DaoException("Can not insert by id from "+this.getClass().getSimpleName(), e);
         }
         return author;
     }
@@ -65,7 +63,7 @@ public class MySqlAuthorDao extends AuthorDao {
                 statement(statement, item, 4, 1, 2, 3).executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from AuthorDAO " + item, e);
+            throw new DaoException("Can not update by entity from "+this.getClass().getSimpleName()+"/" + item, e);
         }
     }
 
@@ -82,7 +80,7 @@ public class MySqlAuthorDao extends AuthorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get allList from AuthorDAO", e);
+            throw new DaoException("Can not get allList from "+this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -95,7 +93,7 @@ public class MySqlAuthorDao extends AuthorDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not delete by entity from AuthorDAO " + item, e);
+            throw new DaoException("Can not delete by entity from "+this.getClass().getSimpleName()+"/" + item, e);
         }
     }
 
