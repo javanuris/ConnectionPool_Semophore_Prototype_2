@@ -38,6 +38,6 @@ public class Author extends BaseEntity{
 
     @Override
     public String toString() {
-        return firstName + "/"+lastName+"/"+middle_name;
+        return getId()+"/"+ firstName + "/"+lastName+"/"+middle_name;
     }
 }

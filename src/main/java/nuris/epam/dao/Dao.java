@@ -8,12 +8,12 @@ import java.util.List;
 public interface Dao<T extends BaseEntity> {
     T insert(T item) throws DaoException;
 
-    T findById(int id)throws DaoException;
+    T findById(int id) throws DaoException;
 
-    void update(T item)throws DaoException;
+    void update(T item) throws DaoException;
 
-    List<T> getAll()throws DaoException;
+    List<T> getAll() throws DaoException;
 
-    void delete(T item)throws DaoException;
+    void delete(T item) throws DaoException;
 
 }

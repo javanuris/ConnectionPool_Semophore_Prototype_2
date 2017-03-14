@@ -2,6 +2,7 @@ package nuris.epam.connection;
 
 import nuris.epam.dao.exception.PropertiesException;
 import nuris.epam.dao.exception.ResourcesException;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,21 +10,45 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Created by User on 09.03.2017.
+ * Класс хранит список инициализированных соеденений к БД.
+ *
+ * @author Kalenov Nurislam
  */
 public class ConnectionPool {
+    /**
+     * Поле  - пользователь от БД.
+     */
     private String user;
+    /**
+     * Поле  - пароль от БД.
+     */
     private String password;
+    /**
+     * Поле  - путь к БД.
+     */
     private String url;
+    /**
+     * Поле  - тип БД.
+     */
     private String type;
-    private static ConnectionPool connectionPool;
+    /**
+     * Поле  - количество инициаизированных соеденеий.
+     */
     private final static int POOL_SIZE = 5;
+    /**
+     * Поле  - список для хранеини иницализированных соеденеий.
+     */
     private ResourcesQueue<Connection> connections = null;
+
+    private static ConnectionPool connectionPool;
 
     private ConnectionPool() {
         init();
     }
 
+    /**
+     * Инициализирует N-ое количество соедений и добавляет их в список.
+     */
     private void init() {
         try {
             loadProperties();
@@ -34,11 +59,20 @@ public class ConnectionPool {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }catch (PropertiesException e) {
+        } catch (PropertiesException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Загружает данные о БД с помощью файла .properties и инициализирует поля.
+     * {@link ConnectionPool#user}
+     * {@link ConnectionPool#password}
+     * {@link ConnectionPool#url}
+     * {@link ConnectionPool#type}
+     *
+     * @see ConnectionPool .
+     */
     private void loadProperties() throws PropertiesException {
         Properties properties = new Properties();
         try {
@@ -48,10 +82,15 @@ public class ConnectionPool {
             url = properties.getProperty("url");
             type = properties.getProperty("type");
         } catch (IOException e) {
-            throw new PropertiesException("Not found properties file with connecting settings" , e);
+            throw new PropertiesException("Not found properties file with connecting settings", e);
         }
     }
 
+    /**
+     * Берет из списка пулов соедениий одно соеденение к БД.
+     *{@link ConnectionPool#type}
+     * @return возвращяет соедение к БД.
+     */
     public Connection getConnection() {
         try {
             return connections.takeResource();
@@ -60,10 +99,18 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Возвращяет коннект в список пулов соеденений.
+     */
     public void returnConnection(Connection connection) {
         connections.returnResource(connection);
     }
 
+    /**
+     * Создает экземпляр класса.
+     *
+     * @return возвращяет единсвенный экземпляр класса.(Pattern Singleton).
+     */
     public static ConnectionPool getInstance() {
         if (null == connectionPool) {
             connectionPool = new ConnectionPool();
@@ -71,10 +118,11 @@ public class ConnectionPool {
         return connectionPool;
     }
 
-    public int size() {
-        return connections.size();
-    }
-
+    /**
+     * Получает значение поля.
+     *
+     * @return возвращяет тип соеденений к БД.
+     */
     public String getType() {
         return type;
     }

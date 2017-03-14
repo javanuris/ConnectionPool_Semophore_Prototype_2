@@ -8,7 +8,9 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by User on 08.03.2017.
+ * Кастомный класс-список , для хранений потоковых обектов.
+ *
+ * @author Kalenov Nurislam
  */
 public class ResourcesQueue<T> {
 
