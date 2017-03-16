@@ -1,6 +1,8 @@
 package nuris.epam.dao;
 
+import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Author;
+import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
 import nuris.epam.entity.Publisher;
 
@@ -11,6 +13,7 @@ import java.util.List;
  */
 public abstract class GenreDao extends BaseDao<Genre> {
 
+    public abstract Genre findByBook(Book book) throws DaoException;
 
 
 }

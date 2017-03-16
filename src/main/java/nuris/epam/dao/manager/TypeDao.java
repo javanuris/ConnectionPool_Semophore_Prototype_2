@@ -1,8 +1,10 @@
 package nuris.epam.dao.manager;
 
 import nuris.epam.connection.ConnectionPool;
+import nuris.epam.dao.BookDao;
 import nuris.epam.dao.PublisherDao;
 import nuris.epam.dao.mysql.MySqlAuthorDao;
+import nuris.epam.dao.mysql.MySqlBook;
 import nuris.epam.dao.mysql.MySqlGenreDao;
 import nuris.epam.dao.mysql.MySqlPublisherDao;
 
@@ -36,6 +38,14 @@ public class TypeDao {
             return MySqlGenreDao.class;
         } else {
             return MySqlGenreDao.class;
+        }
+    }
+
+    public Class getBookDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlBook.class;
+        } else {
+            return MySqlBook.class;
         }
     }
     public static TypeDao getInstance() {

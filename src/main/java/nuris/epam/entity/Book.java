@@ -8,44 +8,44 @@ import java.util.List;
  * Created by User on 14.03.2017.
  */
 public class Book extends BaseEntity {
-    private List<Author> authors = new ArrayList<>();
-    private List<Genre> genres = new ArrayList<>();
-    private List<Publisher> publishers = new ArrayList<>();
-
-    private int name;
+    private Author author;
+    private Genre genre;
+    private Publisher publisher;
+    private String name;
     private int isbn;
     private Date date;
 
-    public void setAuthor(Author author) {
-        authors.add(author);
+    public Genre getGenre() {
+        return genre;
     }
 
     public void setGenre(Genre genre) {
-        genres.add(genre);
+        this.genre = genre;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     public void setPublisher(Publisher publisher) {
-        publishers.add(publisher);
+        this.publisher = publisher;
     }
 
-    public Author getAuthor(int i) {
-        return authors.get(i);
+    public Author getAuthor() {
+        return author;
     }
 
-    public Genre getGenre(int i) {
-        return genres.get(i);
-    }
-
-    public Publisher getPublisher(int i) {
-        return publishers.get(i);
-    }
-
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public int getIsbn() {
@@ -66,6 +66,6 @@ public class Book extends BaseEntity {
 
     @Override
     public String toString() {
-        return getId() + "/" + name + "/" + date + "/" + isbn;
+        return getId() + "/" + name + "/" + date + "/" + author.getId() + "/" + genre.getId() + "/" + publisher.getId() + "/" + isbn;
     }
 }

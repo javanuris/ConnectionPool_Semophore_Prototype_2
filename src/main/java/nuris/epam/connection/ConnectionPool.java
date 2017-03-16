@@ -34,7 +34,7 @@ public class ConnectionPool {
     /**
      * Поле  - количество инициаизированных соеденеий.
      */
-    private final static int POOL_SIZE = 5;
+    private  int poolSize;
     /**
      * Поле  - список для хранеини иницализированных соеденеий.
      */
@@ -52,8 +52,8 @@ public class ConnectionPool {
     private void init() {
         try {
             loadProperties();
-            connections = new ResourcesQueue<Connection>(POOL_SIZE);
-            while (connections.size() < POOL_SIZE) {
+            connections = new ResourcesQueue<Connection>(poolSize);
+            while (connections.size() < poolSize) {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 connections.addResource(connection);
             }
@@ -70,6 +70,7 @@ public class ConnectionPool {
      * {@link ConnectionPool#password}
      * {@link ConnectionPool#url}
      * {@link ConnectionPool#type}
+     * {@link ConnectionPool#poolSize}
      *
      * @see ConnectionPool .
      */
@@ -81,6 +82,7 @@ public class ConnectionPool {
             password = properties.getProperty("password");
             url = properties.getProperty("url");
             type = properties.getProperty("type");
+            poolSize = Integer.parseInt(properties.getProperty("pool_size"));
         } catch (IOException e) {
             throw new PropertiesException("Not found properties file with connecting settings", e);
         }

@@ -64,6 +64,10 @@ public class Sql {
             Sql.this.setStringBuilder("where " + str + " = ?");
             return this;
         }
+        public Builder whereQs(String table,String column) {
+            Sql.this.setStringBuilder("where " + table+"."+column+ " = ?");
+            return this;
+        }
         public Builder eq() {
             Sql.this.setStringBuilder(" = ");
             return this;
@@ -87,14 +91,24 @@ public class Sql {
             Sql.this.setStringBuilder(s + " ");
             return this;
         }
-        public Builder varQs(String s) {
-            Sql.this.setStringBuilder(s + " = ?");
+        public Builder varQs(String column) {
+            Sql.this.setStringBuilder(column + " = ?");
             return this;
         }
+        public Builder join(String table){
+            Sql.this.setStringBuilder("join "+table+" on ");
+            return this;
+        }
+        public Builder varS(String table , String column) {
+            Sql.this.setStringBuilder(table+"."+column+" ");
+            return this;
+        }
+
         public Builder c() {
             Sql.this.setStringBuilder(",");
             return this;
         }
+
         public Builder allFrom() {
             Sql.this.setStringBuilder("* from ");
             return this;

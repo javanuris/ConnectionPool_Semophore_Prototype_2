@@ -2,6 +2,7 @@ package nuris.epam.dao.mysql;
 
 import nuris.epam.dao.GenreDao;
 import nuris.epam.dao.exception.DaoException;
+import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
 import nuris.epam.entity.Publisher;
 
@@ -18,12 +19,18 @@ public class MySqlGenreDao extends GenreDao {
     public static final String GENRE = "genre";
     public static final String NAME = "name";
     public static final String ID_GENRE = "id_genre";
+    private static final String BOOK = "book";
+    public static final String ID_BOOK = "id_book";
 
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(GENRE).whereQs(ID_GENRE).build();
     private static final String INSERT = Sql.create().insert().var(GENRE).values(ID_GENRE, 1).build();
     private static final String UPDATE = Sql.create().update().var(GENRE).set().varQs(NAME).whereQs(ID_GENRE).build();
     private static final String DELETE = Sql.create().delete().var(GENRE).whereQs(ID_GENRE).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(GENRE).build();
+    public static final String FIND_BY_BOOK = Sql.create().select().varS(GENRE,ID_GENRE).c()
+            .varS(GENRE , NAME).from().var(GENRE).join(BOOK).varS(BOOK , ID_GENRE).eq()
+            .varS(GENRE , ID_GENRE).whereQs(BOOK , ID_BOOK).build();
+
 
     @Override
     public Genre insert(Genre item) throws DaoException {
@@ -40,15 +47,13 @@ public class MySqlGenreDao extends GenreDao {
 
     @Override
     public Genre findById(int id) throws DaoException {
-        Genre genre = new Genre();
+        Genre genre = null;
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        genre.setId(resultSet.getInt(1));
-                        genre.setName(resultSet.getString(2));
-
+                        genre = item(genre , resultSet);
                     }
                 }
             }
@@ -79,9 +84,7 @@ public class MySqlGenreDao extends GenreDao {
             try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        genre = new Genre();
-                        genre.setId(resultSet.getInt(1));
-                        genre.setName(resultSet.getString(2));
+                        genre = item(genre , resultSet);
                         list.add(genre);
                     }
                 }
@@ -102,5 +105,30 @@ public class MySqlGenreDao extends GenreDao {
         } catch (SQLException e) {
             throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "|" + item, e);
         }
+    }
+
+    @Override
+    public Genre findByBook(Book book) throws DaoException {
+        Genre genre = null;
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_BOOK)) {
+                statement.setInt(1, book.getId());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        genre = item(genre , resultSet);
+
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+        }
+        return genre;
+    }
+    private Genre item(Genre genre, ResultSet resultSet) throws SQLException {
+        genre = new Genre();
+        genre.setId(resultSet.getInt(1));
+        genre.setName(resultSet.getString(2));
+        return genre;
     }
 }
