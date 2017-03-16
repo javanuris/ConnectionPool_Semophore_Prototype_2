@@ -15,5 +15,4 @@ public abstract class BaseDao<T extends BaseEntity> implements Dao<T> {
         this.connection = connection;
     }
 
-
 }

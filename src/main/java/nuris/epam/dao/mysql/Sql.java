@@ -61,7 +61,7 @@ public class Sql {
             return this;
         }
         public Builder whereQs(String str) {
-            Sql.this.setStringBuilder("where " + str + " = ?");
+            Sql.this.setStringBuilder(" where " + str + " = ?");
             return this;
         }
         public Builder whereQs(String table,String column) {
