@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlAuthorDao extends AuthorDao {
+
     private static final String AUTHOR = "author";
     private static final String ID_AUTHOR = "id_author";
     private static final String FIRST_NAME = "first_name";
@@ -33,8 +34,12 @@ public class MySqlAuthorDao extends AuthorDao {
     @Override
     public Author insert(Author item) throws DaoException {
         try {
-            try (PreparedStatement statement = getConnection().prepareStatement(INSERT)) {
-                statement(statement, item, 0, 1, 2, 3).executeUpdate();
+            try (PreparedStatement statement = getConnection().prepareStatement(INSERT,PreparedStatement.RETURN_GENERATED_KEYS)) {
+                statement(statement, item).executeUpdate();
+                try(ResultSet resultSet = statement.getGeneratedKeys()){
+                resultSet.next();
+                    item.setId(resultSet.getInt(1));
+                }
             }
         } catch (SQLException e) {
             throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
@@ -50,7 +55,7 @@ public class MySqlAuthorDao extends AuthorDao {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        author = item(author, resultSet);
+                        author = itemAuthor(author, resultSet);
                     }
                 }
             }
@@ -64,7 +69,9 @@ public class MySqlAuthorDao extends AuthorDao {
     public void update(Author item) throws DaoException {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(UPDATE)) {
-                statement(statement, item, 4, 1, 2, 3).executeUpdate();
+                statement(statement, item);
+                statement.setInt(4, item.getId());
+                statement.executeUpdate();
             }
         } catch (SQLException e) {
             throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
@@ -79,7 +86,7 @@ public class MySqlAuthorDao extends AuthorDao {
             try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        list.add(item(author, resultSet));
+                        list.add(itemAuthor(author, resultSet));
                     }
                 }
             }
@@ -97,7 +104,7 @@ public class MySqlAuthorDao extends AuthorDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -109,33 +116,24 @@ public class MySqlAuthorDao extends AuthorDao {
                 statement.setInt(1, book.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        author = item(author, resultSet);
+                        author = itemAuthor(author, resultSet);
                     }
                 }
             }
         } catch (SQLException e) {
             throw new DaoException("Can not insert by BOOK from " + this.getClass().getSimpleName(), e);
         }
-
         return author;
     }
 
-    private PreparedStatement statement(PreparedStatement statement, Author item, int id, int fisrtN, int lastN, int middleN) throws SQLException {
-        if (id > 0) {
-            statement.setInt(id, item.getId());
-            statement.setString(fisrtN, item.getFirstName());
-            statement.setString(lastN, item.getLastName());
-            statement.setString(middleN, item.getMiddle_name());
-        } else {
-            statement.setString(fisrtN, item.getFirstName());
-            statement.setString(lastN, item.getLastName());
-            statement.setString(middleN, item.getMiddle_name());
-        }
-
+    private PreparedStatement statement(PreparedStatement statement, Author item) throws SQLException {
+            statement.setString(1, item.getFirstName());
+            statement.setString(2, item.getLastName());
+            statement.setString(3, item.getMiddle_name());
         return statement;
     }
 
-    private Author item(Author author, ResultSet resultSet) throws SQLException {
+    private Author itemAuthor(Author author, ResultSet resultSet) throws SQLException {
         author = new Author();
         author.setId(resultSet.getInt(1));
         author.setFirstName(resultSet.getString(2));

@@ -11,6 +11,7 @@ import nuris.epam.dao.mysql.MySqlPublisherDao;
 import nuris.epam.dao.mysql.Sql;
 import nuris.epam.entity.*;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +21,23 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws Exception {
         DaoFactory daoFactory =new DaoFactory();
-        Book book = new Book();
-        book.setId(5);
+        Author author = new Author();
+
+        author.setFirstName("Bdfffarsik");
+        author.setLastName("Cat");
+        author.setMiddle_name("Animal");
+
+        Genre genre = new Genre();
+        genre.setName("Боевик");
+
+
         AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
         GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-        PublisherDao publisherDao = (PublisherDao) daoFactory.getDao(daoFactory.typeDao().getPublisherDao());
-        Publisher publisher= publisherDao.findByBook(book);
-        System.out.println(publisher);
+        genreDao.insert(genre);
+        System.out.println(genre);
+
+
+
     }
 
 }

@@ -22,7 +22,6 @@ public class MySqlPublisherDao extends PublisherDao {
     private static final String BOOK = "book";
     public static final String ID_BOOK = "id_book";
 
-
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(PUBLISHER).whereQs(ID_PUBLISHER).build();
     private static final String INSERT = Sql.create().insert().var(PUBLISHER).values(ID_PUBLISHER, 2).build();
     private static final String UPDATE = Sql.create().update().var(PUBLISHER).set().varQs(NAME).c().varQs(CITY).whereQs(ID_PUBLISHER).build();
@@ -32,14 +31,17 @@ public class MySqlPublisherDao extends PublisherDao {
             .varS(PUBLISHER, NAME).c().varS(PUBLISHER, CITY).from().var(PUBLISHER).join(BOOK).varS(BOOK, ID_PUBLISHER).eq()
             .varS(PUBLISHER, ID_PUBLISHER).whereQs(BOOK, ID_BOOK).build();
 
-
     @Override
     public Publisher insert(Publisher item) throws DaoException {
         try {
-            try (PreparedStatement statement = getConnection().prepareStatement(INSERT)) {
+            try (PreparedStatement statement = getConnection().prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, item.getName());
                 statement.setString(2, item.getCity());
                 statement.executeUpdate();
+                try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                    resultSet.next();
+                    item.setId(resultSet.getInt(1));
+                }
             }
         } catch (SQLException e) {
             throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
@@ -55,7 +57,7 @@ public class MySqlPublisherDao extends PublisherDao {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                      publisher = item(publisher , resultSet);
+                        publisher = itemPublisher(publisher, resultSet);
                     }
                 }
             }
@@ -64,7 +66,6 @@ public class MySqlPublisherDao extends PublisherDao {
         }
         return publisher;
     }
-
 
     @Override
     public void update(Publisher item) throws DaoException {
@@ -88,7 +89,7 @@ public class MySqlPublisherDao extends PublisherDao {
             try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        publisher = item(publisher , resultSet);
+                        publisher = itemPublisher(publisher, resultSet);
                         list.add(publisher);
                     }
                 }
@@ -119,7 +120,7 @@ public class MySqlPublisherDao extends PublisherDao {
                 statement.setInt(1, book.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        publisher = item(publisher , resultSet);
+                        publisher = itemPublisher(publisher, resultSet);
 
                     }
                 }
@@ -129,7 +130,8 @@ public class MySqlPublisherDao extends PublisherDao {
         }
         return publisher;
     }
-    private Publisher item(Publisher publisher, ResultSet resultSet) throws SQLException {
+
+    private Publisher itemPublisher(Publisher publisher, ResultSet resultSet) throws SQLException {
         publisher = new Publisher();
         publisher.setId(resultSet.getInt(1));
         publisher.setName(resultSet.getString(2));

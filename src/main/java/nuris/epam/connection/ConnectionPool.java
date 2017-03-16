@@ -32,11 +32,11 @@ public class ConnectionPool {
      */
     private String type;
     /**
-     * Поле  - количество инициаизированных соеденеий.
+     * Поле  - количество инициаилизированных соеденеий.
      */
     private  int poolSize;
     /**
-     * Поле  - список для хранеини иницализированных соеденеий.
+     * Поле  - список для хранеиния инициализированных соеденеий.
      */
     private ResourcesQueue<Connection> connections = null;
 
