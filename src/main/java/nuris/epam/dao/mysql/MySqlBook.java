@@ -3,10 +3,12 @@ package nuris.epam.dao.mysql;
 import nuris.epam.dao.BookDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Book;
+import nuris.epam.entity.Genre;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,9 @@ public class MySqlBook extends BookDao {
     private static final String UPDATE = Sql.create().update().var(BOOK).set().varQs(NAME).c().varQs(YEAR).c().varQs(ISBN).c().varQs(ID_GENRE).c().varQs(ID_AUTHOR).c().varQs(ID_PUBLISHER).whereQs(ID_BOOK).build();
     private static final String DELETE = Sql.create().delete().var(BOOK).whereQs(ID_BOOK).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(BOOK).build();
+    private static final String COUNT_BOOK = Sql.create().select().count().from().var(BOOK).build();
+    private static final String LIMIT_BOOK = Sql.create().select().allFrom().var(BOOK).limit().build();
+    private static final String LIMIT_BOOK_BY_GENRE = Sql.create().select().allFrom().var(BOOK).whereQs(ID_GENRE).limit().build();
 
     @Override
     public Book insert(Book item) throws DaoException {
@@ -118,6 +123,63 @@ public class MySqlBook extends BookDao {
         return statement;
     }
 
+    @Override
+    public int getBookCount() throws DaoException {
+        int count = 0;
+        try (Statement statement = getConnection().createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(COUNT_BOOK)) {
+                while (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Cannot create statement for counting book", e);
+        }
+        return count;
+    }
+
+    @Override
+    public List<Book> getLimitBook(int start, int count) throws DaoException {
+        List<Book> list = new ArrayList<>();
+        Book book = null;
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(LIMIT_BOOK)) {
+                statement.setInt(1, ((start - 1) * count));
+                statement.setInt(2, count);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        book = itemBook(book, resultSet);
+                        list.add(book);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not get getLimitList from " + this.getClass().getSimpleName(), e);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Book> getLimitBookByGenre(Genre genre, int start, int count) throws DaoException {
+        List<Book> list = new ArrayList<>();
+        Book book = null;
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(LIMIT_BOOK_BY_GENRE)) {
+                statement.setInt(1 , genre.getId());
+                statement.setInt(2, ((start - 1) * count));
+                statement.setInt(3, count);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        book = itemBook(book, resultSet);
+                        list.add(book);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not get getLimitListByGenre from " + this.getClass().getSimpleName(), e);
+        }
+        return list;
+    }
 
     private Book itemBook(Book book, ResultSet resultSet) throws SQLException {
         book = new Book();
@@ -127,3 +189,4 @@ public class MySqlBook extends BookDao {
         return book;
     }
 }
+

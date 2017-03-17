@@ -50,6 +50,10 @@ public class Sql {
             Sql.this.setStringBuilder("delete from ");
             return this;
         }
+        public Builder count() {
+            Sql.this.setStringBuilder("count(*) ");
+            return this;
+        }
 
         public Builder all() {
             Sql.this.setStringBuilder("*");
@@ -61,11 +65,11 @@ public class Sql {
             return this;
         }
         public Builder whereQs(String str) {
-            Sql.this.setStringBuilder(" where " + str + " = ?");
+            Sql.this.setStringBuilder(" where " + str + " = ? ");
             return this;
         }
         public Builder whereQs(String table,String column) {
-            Sql.this.setStringBuilder("where " + table+"."+column+ " = ?");
+            Sql.this.setStringBuilder(" where " + table+"."+column+ " = ? ");
             return this;
         }
         public Builder eq() {
@@ -108,7 +112,10 @@ public class Sql {
             Sql.this.setStringBuilder(",");
             return this;
         }
-
+        public Builder limit() {
+            Sql.this.setStringBuilder("limit ?,? ");
+            return this;
+        }
         public Builder allFrom() {
             Sql.this.setStringBuilder("* from ");
             return this;

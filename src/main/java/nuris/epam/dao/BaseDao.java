@@ -10,7 +10,6 @@ public abstract class BaseDao<T extends BaseEntity> implements Dao<T> {
     public Connection getConnection() {
         return connection;
     }
-
     public void setConnection(Connection connection) {
         this.connection = connection;
     }

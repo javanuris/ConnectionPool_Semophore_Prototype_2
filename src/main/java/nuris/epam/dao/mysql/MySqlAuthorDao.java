@@ -129,7 +129,7 @@ public class MySqlAuthorDao extends AuthorDao {
     private PreparedStatement statement(PreparedStatement statement, Author item) throws SQLException {
             statement.setString(1, item.getFirstName());
             statement.setString(2, item.getLastName());
-            statement.setString(3, item.getMiddle_name());
+            statement.setString(3, item.getMiddleName());
         return statement;
     }
 
@@ -138,7 +138,7 @@ public class MySqlAuthorDao extends AuthorDao {
         author.setId(resultSet.getInt(1));
         author.setFirstName(resultSet.getString(2));
         author.setLastName(resultSet.getString(3));
-        author.setMiddle_name(resultSet.getString(4));
+        author.setMiddleName(resultSet.getString(4));
         return author;
     }
 

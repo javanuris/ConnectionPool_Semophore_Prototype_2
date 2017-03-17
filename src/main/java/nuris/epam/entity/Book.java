@@ -1,5 +1,7 @@
 package nuris.epam.entity;
 
+import sun.java2d.windows.GDIWindowSurfaceData;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,11 @@ public class Book extends BaseEntity {
     private String name;
     private int isbn;
     private Date date;
+    public Book(){
+        author = new Author();
+        genre = new Genre();
+        publisher = new Publisher();
+    }
 
     public Genre getGenre() {
         return genre;

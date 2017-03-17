@@ -3,13 +3,13 @@ package nuris.epam.entity;
 /**
  * Created by User on 09.03.2017.
  */
-public class Author extends BaseEntity{
+public class Author extends BaseEntity {
 
     private String firstName;
 
     private String lastName;
 
-    private String middle_name;
+    private String middleName;
 
 
     public String getFirstName() {
@@ -28,16 +28,16 @@ public class Author extends BaseEntity{
         this.lastName = lastName;
     }
 
-    public String getMiddle_name() {
-        return middle_name;
+    public String getMiddleName() {
+        return middleName;
     }
 
-    public void setMiddle_name(String middle_name) {
-        this.middle_name = middle_name;
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     @Override
     public String toString() {
-        return getId()+"/"+ firstName + "/"+lastName+"/"+middle_name;
+        return getId() + "/" + firstName + "/" + lastName + "/" + middleName;
     }
 }

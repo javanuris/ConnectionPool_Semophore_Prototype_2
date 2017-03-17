@@ -6,4 +6,6 @@ import nuris.epam.entity.Book;
 
 public abstract class AuthorDao extends BaseDao<Author>{
     public abstract Author findByBook(Book book) throws DaoException;
+
+
 }
