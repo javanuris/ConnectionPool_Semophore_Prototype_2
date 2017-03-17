@@ -104,7 +104,7 @@ public class MySqlAuthorDao extends AuthorDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("Cannot delete Author entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 

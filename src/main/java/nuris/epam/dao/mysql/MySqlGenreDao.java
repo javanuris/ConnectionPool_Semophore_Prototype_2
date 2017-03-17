@@ -105,7 +105,7 @@ public class MySqlGenreDao extends GenreDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("Cannot delete Genre entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 

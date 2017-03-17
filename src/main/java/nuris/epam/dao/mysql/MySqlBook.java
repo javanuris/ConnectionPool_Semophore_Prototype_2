@@ -109,19 +109,10 @@ public class MySqlBook extends BookDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("Cannot delete Book entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
-    private PreparedStatement statement(PreparedStatement statement, Book item) throws SQLException {
-        statement.setString(1, item.getName());
-        statement.setDate(2, item.getDate());
-        statement.setInt(3, item.getIsbn());
-        statement.setInt(4, item.getGenre().getId());
-        statement.setInt(5, item.getAuthor().getId());
-        statement.setInt(6, item.getPublisher().getId());
-        return statement;
-    }
 
     @Override
     public int getBookCount() throws DaoException {
@@ -188,5 +179,16 @@ public class MySqlBook extends BookDao {
         book.setDate(resultSet.getDate(3));
         return book;
     }
+
+    private PreparedStatement statement(PreparedStatement statement, Book item) throws SQLException {
+        statement.setString(1, item.getName());
+        statement.setDate(2, item.getDate());
+        statement.setInt(3, item.getIsbn());
+        statement.setInt(4, item.getGenre().getId());
+        statement.setInt(5, item.getAuthor().getId());
+        statement.setInt(6, item.getPublisher().getId());
+        return statement;
+    }
+
 }
 

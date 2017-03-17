@@ -106,7 +106,7 @@ public class MySqlCity extends CityDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("Cannot delete City entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 

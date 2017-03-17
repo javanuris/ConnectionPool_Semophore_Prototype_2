@@ -21,6 +21,10 @@ public class Person extends BaseEntity{
 
     private City city;
 
+    public Person(){
+        city = new City();
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -75,5 +79,10 @@ public class Person extends BaseEntity{
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return getId()+ "/"+ firstName+"/"+lastName+"/"+middleName+"/"+phone+"/"+birthday+"/"+adrees+"/"+city;
     }
 }

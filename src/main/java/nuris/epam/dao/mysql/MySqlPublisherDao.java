@@ -106,7 +106,7 @@ public class MySqlPublisherDao extends PublisherDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("Cannot delete Publisher entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
