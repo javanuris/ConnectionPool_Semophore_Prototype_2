@@ -27,9 +27,7 @@ public class MySqlPublisherDao extends PublisherDao {
     private static final String UPDATE = Sql.create().update().var(PUBLISHER).set().varQs(NAME).c().varQs(CITY).whereQs(ID_PUBLISHER).build();
     private static final String DELETE = Sql.create().delete().var(PUBLISHER).whereQs(ID_PUBLISHER).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(PUBLISHER).build();
-    public static final String FIND_BY_BOOK = Sql.create().select().varS(PUBLISHER, ID_PUBLISHER).c()
-            .varS(PUBLISHER, NAME).c().varS(PUBLISHER, CITY).from().var(PUBLISHER).join(BOOK).varS(BOOK, ID_PUBLISHER).eq()
-            .varS(PUBLISHER, ID_PUBLISHER).whereQs(BOOK, ID_BOOK).build();
+    public static final String FIND_BY_BOOK = Sql.create().select().varS(PUBLISHER, ID_PUBLISHER).c().varS(PUBLISHER, NAME).c().varS(PUBLISHER, CITY).from().var(PUBLISHER).join(BOOK).varS(BOOK, ID_PUBLISHER).eq().varS(PUBLISHER, ID_PUBLISHER).whereQs(BOOK, ID_BOOK).build();
 
     @Override
     public Publisher insert(Publisher item) throws DaoException {

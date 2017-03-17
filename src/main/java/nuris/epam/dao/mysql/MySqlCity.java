@@ -1,10 +1,9 @@
 package nuris.epam.dao.mysql;
 
-import nuris.epam.dao.GenreDao;
+import nuris.epam.dao.CityDao;
 import nuris.epam.dao.exception.DaoException;
-import nuris.epam.entity.Book;
-import nuris.epam.entity.Genre;
-import nuris.epam.entity.Publisher;
+import nuris.epam.entity.City;
+import nuris.epam.entity.Person;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,30 +12,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by User on 14.03.2017.
+ * Created by User on 17.03.2017.
  */
-public class MySqlGenreDao extends GenreDao {
-    public static final String GENRE = "genre";
+public class MySqlCity extends CityDao {
+    public static final String CITY = "city";
     public static final String NAME = "name";
-    public static final String ID_GENRE = "id_genre";
-    private static final String BOOK = "book";
-    public static final String ID_BOOK = "id_book";
+    public static final String ID_CITY = "id_city";
+    public static final String PERSON = "person";
+    public static final String ID_PERSON = "id_person";
 
-    private static final String FIND_BY_ID = Sql.create().select().allFrom().var(GENRE).whereQs(ID_GENRE).build();
-    private static final String INSERT = Sql.create().insert().var(GENRE).values(ID_GENRE, 1).build();
-    private static final String UPDATE = Sql.create().update().var(GENRE).set().varQs(NAME).whereQs(ID_GENRE).build();
-    private static final String DELETE = Sql.create().delete().var(GENRE).whereQs(ID_GENRE).build();
-    private static final String SELECT_ALL = Sql.create().select().allFrom().var(GENRE).build();
-    public static final String FIND_BY_BOOK = Sql.create().select().varS(GENRE, ID_GENRE).c().varS(GENRE, NAME).from().var(GENRE).join(BOOK).varS(BOOK, ID_GENRE).eq().varS(GENRE, ID_GENRE).whereQs(BOOK, ID_BOOK).build();
+    private static final String FIND_BY_ID = Sql.create().select().allFrom().var(CITY).whereQs(ID_CITY).build();
+    private static final String INSERT = Sql.create().insert().var(CITY).values(ID_CITY, 1).build();
+    private static final String UPDATE = Sql.create().update().var(CITY).set().varQs(NAME).whereQs(ID_CITY).build();
+    private static final String DELETE = Sql.create().delete().var(CITY).whereQs(ID_CITY).build();
+    private static final String SELECT_ALL = Sql.create().select().allFrom().var(CITY).build();
 
+    public static final String FIND_BY_BOOK = Sql.create().select().varS(CITY, ID_CITY).c()
+            .varS(CITY, NAME).from().var(CITY).join(PERSON).varS(PERSON, ID_CITY).eq()
+            .varS(CITY, ID_CITY).whereQs(PERSON, ID_PERSON).build();
 
     @Override
-    public Genre insert(Genre item) throws DaoException {
+    public City insert(City item) throws DaoException {
         try {
-            try (PreparedStatement statement = getConnection().prepareStatement(INSERT,PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement statement = getConnection().prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 statement.setString(1, item.getName());
                 statement.executeUpdate();
-                try(ResultSet resultSet = statement.getGeneratedKeys()){
+                try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     resultSet.next();
                     item.setId(resultSet.getInt(1));
                 }
@@ -48,25 +49,25 @@ public class MySqlGenreDao extends GenreDao {
     }
 
     @Override
-    public Genre findById(int id) throws DaoException {
-        Genre genre = null;
+    public City findById(int id) throws DaoException {
+        City city = null;
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
                 statement.setInt(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        genre = itemGenre(genre, resultSet);
+                        city = itemGenre(city, resultSet);
                     }
                 }
             }
         } catch (SQLException e) {
             throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
         }
-        return genre;
+        return city;
     }
 
     @Override
-    public void update(Genre item) throws DaoException {
+    public void update(City item) throws DaoException {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(UPDATE)) {
                 statement.setString(1, item.getName());
@@ -79,15 +80,15 @@ public class MySqlGenreDao extends GenreDao {
     }
 
     @Override
-    public List<Genre> getAll() throws DaoException {
-        List<Genre> list = new ArrayList<>();
-        Genre genre = null;
+    public List<City> getAll() throws DaoException {
+        List<City> list = new ArrayList<>();
+        City city = null;
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        genre = itemGenre(genre, resultSet);
-                        list.add(genre);
+                        city = itemGenre(city, resultSet);
+                        list.add(city);
                     }
                 }
             }
@@ -98,7 +99,7 @@ public class MySqlGenreDao extends GenreDao {
     }
 
     @Override
-    public void delete(Genre item) throws DaoException {
+    public void delete(City item) throws DaoException {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(DELETE)) {
                 statement.setInt(1, item.getId());
@@ -109,29 +110,28 @@ public class MySqlGenreDao extends GenreDao {
         }
     }
 
-
     @Override
-    public Genre findByBook(Book book) throws DaoException {
-        Genre genre = null;
+    public City findByPerson(Person person) throws DaoException {
+        City city = null;
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_BOOK)) {
-                statement.setInt(1, book.getId());
+                statement.setInt(1, person.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        genre = itemGenre(genre, resultSet);
+                        city = itemGenre(city, resultSet);
                     }
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("Can not insert by Person from " + this.getClass().getSimpleName(), e);
         }
-        return genre;
+        return city;
     }
 
-    private Genre itemGenre(Genre genre, ResultSet resultSet) throws SQLException {
-        genre = new Genre();
-        genre.setId(resultSet.getInt(1));
-        genre.setName(resultSet.getString(2));
-        return genre;
+    private City itemGenre(City city, ResultSet resultSet) throws SQLException {
+        city = new City();
+        city.setId(resultSet.getInt(1));
+        city.setName(resultSet.getString(2));
+        return city;
     }
 }
