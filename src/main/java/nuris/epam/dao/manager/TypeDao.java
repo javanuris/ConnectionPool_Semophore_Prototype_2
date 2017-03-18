@@ -69,6 +69,15 @@ public class TypeDao {
         }
     }
 
+    public Class getAvatarDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlAvatarDao.class;
+        } else {
+            return MySqlAvatarDao.class;
+        }
+    }
+
+
     public static TypeDao getInstance() {
         if (typeDao == null) {
             typeDao = new TypeDao();

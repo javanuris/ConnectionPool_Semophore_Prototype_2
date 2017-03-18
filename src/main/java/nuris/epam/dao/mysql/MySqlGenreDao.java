@@ -77,7 +77,7 @@ public class MySqlGenreDao extends GenreDao {
         } catch (SQLException e) {
             throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
-    }
+}
 
     @Override
     public List<Genre> getAll() throws DaoException {
