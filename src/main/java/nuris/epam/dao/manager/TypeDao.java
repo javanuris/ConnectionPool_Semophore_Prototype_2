@@ -21,6 +21,7 @@ public class TypeDao {
             return MySqlAuthorDao.class;
         }
     }
+
     public Class getPublisherDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
             return MySqlPublisherDao.class;
@@ -28,6 +29,7 @@ public class TypeDao {
             return MySqlPublisherDao.class;
         }
     }
+
     public Class getGenreDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
             return MySqlGenreDao.class;
@@ -43,6 +45,7 @@ public class TypeDao {
             return MySqlBook.class;
         }
     }
+
     public Class getCityDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
             return MySqlCity.class;
@@ -56,6 +59,13 @@ public class TypeDao {
             return MySqlPersonDao.class;
         } else {
             return MySqlPersonDao.class;
+        }
+    }
+    public Class getCustomerRoleDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlCustomerRole.class;
+        } else {
+            return MySqlCustomerRole.class;
         }
     }
 

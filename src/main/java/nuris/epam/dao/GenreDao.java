@@ -15,5 +15,7 @@ public abstract class GenreDao extends BaseDao<Genre> {
 
     public abstract Genre findByBook(Book book) throws DaoException;
 
+    public abstract List<Genre> getAll() throws DaoException;
+
 
 }

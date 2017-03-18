@@ -28,7 +28,7 @@ public class MySqlCity extends CityDao {
     private static final String DELETE = Sql.create().delete().var(CITY).whereQs(ID_CITY).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(CITY).build();
 
-    public static final String FIND_BY_BOOK = Sql.create().select().varS(CITY, ID_CITY).c()
+    private static final String FIND_BY_BOOK = Sql.create().select().varS(CITY, ID_CITY).c()
             .varS(CITY, NAME).from().var(CITY).join(PERSON).varS(PERSON, ID_CITY).eq()
             .varS(CITY, ID_CITY).whereQs(PERSON, ID_PERSON).build();
 

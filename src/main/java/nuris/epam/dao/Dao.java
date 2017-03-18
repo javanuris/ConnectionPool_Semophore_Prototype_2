@@ -12,8 +12,6 @@ public interface Dao<T extends BaseEntity> {
 
     void update(T item) throws DaoException;
 
-    List<T> getAll() throws DaoException;
-
     void delete(T item) throws DaoException;
 
 }

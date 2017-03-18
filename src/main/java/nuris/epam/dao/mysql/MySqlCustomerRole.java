@@ -15,18 +15,15 @@ import java.util.List;
  * Created by User on 18.03.2017.
  */
 public class MySqlCustomerRole  extends CustomerRoleDao{
-    public static final String ROLE = "role";
-    public static final String NAME = "name";
-    public static final String ID_ROLE = "id_role";
+    private static final String ROLE = "role";
+    private static final String NAME = "name";
+    private static final String ID_ROLE = "id_role";
 
     private static final String CUSTOMER = "customer";
-    public static final String ID_CUSTOMER = "id_book";
+    private static final String ID_CUSTOMER = "id_book";
 
-    public static final String FIND_BY_CUSTOMER = Sql.create().select().varS(ROLE, ID_ROLE).c().varS(ROLE, NAME).from().var(ROLE).join(CUSTOMER).varS(CUSTOMER, ID_ROLE).eq().varS(ROLE, ID_ROLE).whereQs(CUSTOMER, ID_CUSTOMER).build();
+    private static final String FIND_BY_CUSTOMER = Sql.create().select().varS(ROLE, ID_ROLE).c().varS(ROLE, NAME).from().var(ROLE).join(CUSTOMER).varS(CUSTOMER, ID_ROLE).eq().varS(ROLE, ID_ROLE).whereQs(CUSTOMER, ID_CUSTOMER).build();
 
-    public void sql(){
-        System.out.println(FIND_BY_CUSTOMER);
-    }
 
     @Override
     public CustomerRole findByCustomer(Customer customer) throws DaoException {
@@ -66,11 +63,6 @@ public class MySqlCustomerRole  extends CustomerRoleDao{
     @Override
     public void update(CustomerRole item) throws DaoException {
 
-    }
-
-    @Override
-    public List<CustomerRole> getAll() throws DaoException {
-        return null;
     }
 
     @Override

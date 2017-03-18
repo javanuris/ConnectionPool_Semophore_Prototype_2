@@ -28,7 +28,7 @@ public class MySqlGenreDao extends GenreDao {
     private static final String UPDATE = Sql.create().update().var(GENRE).set().varQs(NAME).whereQs(ID_GENRE).build();
     private static final String DELETE = Sql.create().delete().var(GENRE).whereQs(ID_GENRE).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(GENRE).build();
-    public static final String FIND_BY_BOOK = Sql.create().select().varS(GENRE, ID_GENRE).c().varS(GENRE, NAME).from().var(GENRE).join(BOOK).varS(BOOK, ID_GENRE).eq().varS(GENRE, ID_GENRE).whereQs(BOOK, ID_BOOK).build();
+    private static final String FIND_BY_BOOK = Sql.create().select().varS(GENRE, ID_GENRE).c().varS(GENRE, NAME).from().var(GENRE).join(BOOK).varS(BOOK, ID_GENRE).eq().varS(GENRE, ID_GENRE).whereQs(BOOK, ID_BOOK).build();
 
 
     @Override

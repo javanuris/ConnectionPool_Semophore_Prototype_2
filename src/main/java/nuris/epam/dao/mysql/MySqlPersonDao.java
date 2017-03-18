@@ -34,7 +34,6 @@ public class MySqlPersonDao extends PersonDao {
     private static final String INSERT = Sql.create().insert().var(PERSON).values(ID_PERSON, 1).build();
     private static final String UPDATE = Sql.create().update().var(PERSON).set().varQs(FIRST_NAME).c().varQs(LAST_NAME).c().varQs(MIDDLE_NAME).c().varQs(PHONE).c().varQs(BIRTHDAY).c().varQs(ADDRESS).c().varQs(ID_CITY).whereQs(ID_PERSON).build();
     private static final String DELETE = Sql.create().delete().var(PERSON).whereQs(ID_PERSON).build();
-    private static final String SELECT_ALL = Sql.create().select().allFrom().var(PERSON).build();
     private static final String FIND_BY_CUSTOMER = Sql.create().select().varS(PERSON, ID_PERSON).c().varS(PERSON, FIRST_NAME).c().varS(PERSON, LAST_NAME).c().varS(PERSON, MIDDLE_NAME).c().varS(PERSON, PHONE).c().varS(PERSON, BIRTHDAY).c().varS(PERSON, ADDRESS).from().var(PERSON).join(CUSTOMER).varS(CUSTOMER, ID_PERSON).eq().varS(PERSON, ID_PERSON).whereQs(CUSTOMER, ID_CUSTOMER).build();
 
     @Override
@@ -82,25 +81,6 @@ public class MySqlPersonDao extends PersonDao {
         } catch (SQLException e) {
             throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
-    }
-
-    @Override
-    public List<Person> getAll() throws DaoException {
-        List<Person> list = new ArrayList<>();
-        Person person = null;
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        person = itemPerson(person, resultSet);
-                        list.add(person);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can not get allList from " + this.getClass().getSimpleName(), e);
-        }
-        return list;
     }
 
     @Override

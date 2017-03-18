@@ -29,7 +29,6 @@ public class MySqlBook extends BookDao {
     private static final String INSERT = Sql.create().insert().var(BOOK).values(ID_BOOK, 6).build();
     private static final String UPDATE = Sql.create().update().var(BOOK).set().varQs(NAME).c().varQs(YEAR).c().varQs(ISBN).c().varQs(ID_GENRE).c().varQs(ID_AUTHOR).c().varQs(ID_PUBLISHER).whereQs(ID_BOOK).build();
     private static final String DELETE = Sql.create().delete().var(BOOK).whereQs(ID_BOOK).build();
-    private static final String SELECT_ALL = Sql.create().select().allFrom().var(BOOK).build();
     private static final String COUNT_BOOK = Sql.create().select().count().from().var(BOOK).build();
     private static final String LIMIT_BOOK = Sql.create().select().allFrom().var(BOOK).limit().build();
     private static final String LIMIT_BOOK_BY_GENRE = Sql.create().select().allFrom().var(BOOK).whereQs(ID_GENRE).limit().build();
@@ -82,24 +81,6 @@ public class MySqlBook extends BookDao {
         }
     }
 
-    @Override
-    public List<Book> getAll() throws DaoException {
-        List<Book> list = new ArrayList<>();
-        Book book = null;
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(SELECT_ALL)) {
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        book = itemBook(book, resultSet);
-                        list.add(book);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can not get allList from " + this.getClass().getSimpleName(), e);
-        }
-        return list;
-    }
 
     @Override
     public void delete(Book item) throws DaoException {
