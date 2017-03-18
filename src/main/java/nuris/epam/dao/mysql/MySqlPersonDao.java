@@ -26,6 +26,7 @@ public class MySqlPersonDao extends PersonDao {
     private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
     private static final String ID_CITY = "id_city";
+
     private static final String CUSTOMER = "customer";
     private static final String ID_CUSTOMER = "id_customer";
 

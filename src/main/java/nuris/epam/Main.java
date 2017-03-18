@@ -24,6 +24,5 @@ public class Main {
         MySqlPersonDao mySqlPersonDao = new MySqlPersonDao();
         System.out.println();
 
-
     }
 }

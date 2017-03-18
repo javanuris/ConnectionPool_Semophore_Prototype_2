@@ -19,6 +19,7 @@ public class MySqlGenreDao extends GenreDao {
     public static final String GENRE = "genre";
     public static final String NAME = "name";
     public static final String ID_GENRE = "id_genre";
+
     private static final String BOOK = "book";
     public static final String ID_BOOK = "id_book";
 

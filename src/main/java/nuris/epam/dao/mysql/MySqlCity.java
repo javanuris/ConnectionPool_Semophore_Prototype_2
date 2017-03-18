@@ -18,6 +18,7 @@ public class MySqlCity extends CityDao {
     public static final String CITY = "city";
     public static final String NAME = "name";
     public static final String ID_CITY = "id_city";
+
     public static final String PERSON = "person";
     public static final String ID_PERSON = "id_person";
 

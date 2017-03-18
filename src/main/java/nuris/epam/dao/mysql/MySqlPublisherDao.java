@@ -19,6 +19,7 @@ public class MySqlPublisherDao extends PublisherDao {
     public static final String ID_PUBLISHER = "id_publisher";
     public static final String NAME = "name";
     public static final String CITY = "city";
+
     private static final String BOOK = "book";
     public static final String ID_BOOK = "id_book";
 

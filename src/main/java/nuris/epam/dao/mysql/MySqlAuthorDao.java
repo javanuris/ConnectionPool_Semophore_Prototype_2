@@ -20,6 +20,7 @@ public class MySqlAuthorDao extends AuthorDao {
     private static final String FIRST_NAME = "first_name";
     private static final String LAST_NAME = "last_name";
     private static final String MIDDLE_NAME = "middle_name";
+
     private static final String BOOK = "book";
     public static final String ID_BOOK = "id_book";
 

@@ -18,18 +18,16 @@ public class ResourcesQueue<T> {
 
     private Queue<T> resource = new ConcurrentLinkedQueue<T>();
 
-    public ResourcesQueue(Queue<T> resource, int size) {
-        semaphore = new Semaphore(size, true);
-        resource.addAll(resource);
-    }
+    private int timeOut;
 
-    public ResourcesQueue(int size) {
+    public ResourcesQueue(int size , int timeOut) {
         semaphore = new Semaphore(size, true);
+        this.timeOut = timeOut;
     }
 
     public T takeResource() throws ResourcesException {
         try {
-           if(semaphore.tryAcquire(5000 , TimeUnit.MILLISECONDS)) {
+           if(semaphore.tryAcquire(timeOut , TimeUnit.SECONDS)) {
                T res = resource.poll();
                return res;
            }

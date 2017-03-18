@@ -36,8 +36,13 @@ public class ConnectionPool {
      */
     private  int poolSize;
     /**
-     * Поле  - список для хранеиния инициализированных соеденеий.
+     * Поле  - Время ожидание пользователя до освобождения соедение.
      */
+    private int timeOut;
+    /**
+     * Поле  - список для хранеиние инициализированных соеденеий.
+     */
+
     private ResourcesQueue<Connection> connections = null;
 
     private static ConnectionPool connectionPool;
@@ -52,7 +57,7 @@ public class ConnectionPool {
     private void init() {
         try {
             loadProperties();
-            connections = new ResourcesQueue<Connection>(poolSize);
+            connections = new ResourcesQueue<Connection>(poolSize,timeOut);
             while (connections.size() < poolSize) {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 connections.addResource(connection);
@@ -71,7 +76,7 @@ public class ConnectionPool {
      * {@link ConnectionPool#url}
      * {@link ConnectionPool#type}
      * {@link ConnectionPool#poolSize}
-     *
+     * {@link ConnectionPool#timeOut}
      * @see ConnectionPool .
      */
     private void loadProperties() throws PropertiesException {
@@ -83,6 +88,7 @@ public class ConnectionPool {
             url = properties.getProperty("url");
             type = properties.getProperty("type");
             poolSize = Integer.parseInt(properties.getProperty("pool_size"));
+            timeOut = Integer.parseInt(properties.getProperty("timeout"));
         } catch (IOException e) {
             throw new PropertiesException("Not found properties file with connecting settings", e);
         }
@@ -105,7 +111,6 @@ public class ConnectionPool {
      * Возвращяет коннект в список пулов соеденений.
      */
     public void returnConnection(Connection connection) {
-
         connections.returnResource(connection);
     }
 
