@@ -16,25 +16,25 @@ public class TypeDao {
 
     public Class getAuthorDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
-            return MySqlAuthorDao.class;
+            return MySqlAuthor.class;
         } else {
-            return MySqlAuthorDao.class;
+            return MySqlAuthor.class;
         }
     }
 
     public Class getPublisherDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
-            return MySqlPublisherDao.class;
+            return MySqlPublisher.class;
         } else {
-            return MySqlPublisherDao.class;
+            return MySqlPublisher.class;
         }
     }
 
     public Class getGenreDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
-            return MySqlGenreDao.class;
+            return MySqlGenre.class;
         } else {
-            return MySqlGenreDao.class;
+            return MySqlGenre.class;
         }
     }
 
@@ -56,9 +56,9 @@ public class TypeDao {
 
     public Class getPersonDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
-            return MySqlPersonDao.class;
+            return MySqlPerson.class;
         } else {
-            return MySqlPersonDao.class;
+            return MySqlPerson.class;
         }
     }
     public Class getCustomerRoleDao() {
@@ -71,12 +71,19 @@ public class TypeDao {
 
     public Class getAvatarDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
-            return MySqlAvatarDao.class;
+            return MySqlAvatar.class;
         } else {
-            return MySqlAvatarDao.class;
+            return MySqlAvatar.class;
         }
     }
 
+    public Class getCustomerDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlCustomer.class;
+        } else {
+            return MySqlCustomer.class;
+        }
+    }
 
     public static TypeDao getInstance() {
         if (typeDao == null) {

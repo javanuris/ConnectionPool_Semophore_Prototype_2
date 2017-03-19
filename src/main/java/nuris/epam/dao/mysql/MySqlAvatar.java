@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Created by User on 18.03.2017.
  */
-public class MySqlAvatarDao extends AvatarDao {
+public class MySqlAvatar extends AvatarDao {
 
     public static final String AVATAR = "avatar";
     public static final String PICTURE = "picture";

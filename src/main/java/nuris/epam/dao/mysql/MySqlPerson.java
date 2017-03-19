@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by User on 17.03.2017.
  */
-public class MySqlPersonDao extends PersonDao {
+public class MySqlPerson extends PersonDao {
 
     private static final String PERSON = "person";
     private static final String ID_PERSON = "id_person";

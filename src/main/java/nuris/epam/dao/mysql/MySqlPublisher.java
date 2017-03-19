@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by User on 14.03.2017.
  */
-public class MySqlPublisherDao extends PublisherDao {
+public class MySqlPublisher extends PublisherDao {
     public static final String PUBLISHER = "publisher";
     public static final String ID_PUBLISHER = "id_publisher";
     public static final String NAME = "name";

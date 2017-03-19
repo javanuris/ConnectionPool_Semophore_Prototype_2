@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by User on 14.03.2017.
  */
-public class MySqlGenreDao extends GenreDao {
+public class MySqlGenre extends GenreDao {
     public static final String GENRE = "genre";
     public static final String NAME = "name";
     public static final String ID_GENRE = "id_genre";

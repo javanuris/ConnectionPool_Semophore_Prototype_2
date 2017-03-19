@@ -4,12 +4,11 @@ import nuris.epam.dao.CustomerRoleDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Customer;
 import nuris.epam.entity.CustomerRole;
-import nuris.epam.entity.Genre;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+
 
 /**
  * Created by User on 18.03.2017.

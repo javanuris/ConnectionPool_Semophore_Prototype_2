@@ -3,17 +3,15 @@ package nuris.epam.dao.mysql;
 import nuris.epam.dao.AuthorDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Author;
-import nuris.epam.entity.BaseEntity;
 import nuris.epam.entity.Book;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlAuthorDao extends AuthorDao {
+public class MySqlAuthor extends AuthorDao {
 
     private static final String AUTHOR = "author";
     private static final String ID_AUTHOR = "id_author";

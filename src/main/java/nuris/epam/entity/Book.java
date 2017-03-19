@@ -16,6 +16,7 @@ public class Book extends BaseEntity {
     private String name;
     private int isbn;
     private Date date;
+
     public Book(){
         author = new Author();
         genre = new Genre();
@@ -45,7 +46,6 @@ public class Book extends BaseEntity {
     public String getName() {
         return name;
     }
-
 
     public void setName(String name) {
         this.name = name;

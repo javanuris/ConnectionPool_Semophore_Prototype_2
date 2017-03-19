@@ -37,7 +37,7 @@ public class MySqlBook extends BookDao {
     public Book insert(Book item) throws DaoException {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
-                statement(statement, item);
+                statementBook(statement, item);
                 statement.executeUpdate();
                 try (ResultSet resultSet = statement.getGeneratedKeys()) {
                     resultSet.next();
@@ -72,7 +72,7 @@ public class MySqlBook extends BookDao {
     public void update(Book item) throws DaoException {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(UPDATE)) {
-                statement(statement, item);
+                statementBook(statement, item);
                 statement.setInt(7, item.getId());
                 statement.executeUpdate();
             }
@@ -137,7 +137,7 @@ public class MySqlBook extends BookDao {
         Book book = null;
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(LIMIT_BOOK_BY_GENRE)) {
-                statement.setInt(1 , genre.getId());
+                statement.setInt(1, genre.getId());
                 statement.setInt(2, ((start - 1) * count));
                 statement.setInt(3, count);
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -161,7 +161,7 @@ public class MySqlBook extends BookDao {
         return book;
     }
 
-    private PreparedStatement statement(PreparedStatement statement, Book item) throws SQLException {
+    private PreparedStatement statementBook(PreparedStatement statement, Book item) throws SQLException {
         statement.setString(1, item.getName());
         statement.setDate(2, item.getDate());
         statement.setInt(3, item.getIsbn());
