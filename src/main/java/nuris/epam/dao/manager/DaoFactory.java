@@ -1,4 +1,5 @@
 package nuris.epam.dao.manager;
+
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.dao.BaseDao;
 import nuris.epam.dao.exception.DaoException;
@@ -7,11 +8,23 @@ import nuris.epam.entity.BaseEntity;
 import java.sql.Connection;
 
 /**
- * Created by User on 10.03.2017.
+ * Класс служит для управленеи коннектами, а именно раздача и закрытие коннектов.
+ * Также создает экземпляры Dao обектов и  кладет в них коннект.
+ *
+ * @author Kalenov Nurislam
  */
 public class DaoFactory {
+    /**
+     * Поле  - содержит пул коннектов
+     */
     private ConnectionPool connectionPool;
-    private  Connection connection;
+    /**
+     * Поле  - Соеденение с БД.
+     */
+    private Connection connection;
+    /**
+     * Поле  - Возвращяет обект дао в зависимости от типа БД.
+     */
     private TypeDao typeDao;
 
     public DaoFactory() {
@@ -20,7 +33,12 @@ public class DaoFactory {
         connection = connectionPool.getConnection();
     }
 
-
+    /**
+     * Создает новый объект Dao , также дает ему коннект к базе данных.
+     *
+     * @param clazz - Тип обекта. (Рефлексия)
+     * @return Dao обьект.
+     */
     public <T extends BaseDao<BaseEntity>> T getDao(Class<T> clazz) throws DaoException {
         T t;
         try {
@@ -28,19 +46,24 @@ public class DaoFactory {
             t.setConnection(connection);
 
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new DaoException("Cant to create or give new DAO object" , e);
+            throw new DaoException("Cant to create or give new DAO object", e);
         }
         return t;
     }
 
-    public void returnConnect(){
+    /**
+     * Кладет коннект в пул коннектов.
+     */
+    public void returnConnect() {
         connectionPool.returnConnection(connection);
     }
 
+    /**
+     * @return Возвращяет Дао обект в зависимости от типа БД.
+     */
     public TypeDao typeDao() {
         return typeDao;
     }
-
 
 
 }

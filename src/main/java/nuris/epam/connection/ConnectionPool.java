@@ -77,7 +77,6 @@ public class ConnectionPool {
      * {@link ConnectionPool#type}
      * {@link ConnectionPool#poolSize}
      * {@link ConnectionPool#timeOut}
-     * @see ConnectionPool .
      */
     private void loadProperties() throws PropertiesException {
         Properties properties = new Properties();
@@ -133,9 +132,5 @@ public class ConnectionPool {
      */
     public String getType() {
         return type;
-    }
-
-    public int size(){
-        return connections.size();
     }
 }
