@@ -1,4 +1,4 @@
-package nuris.epam.dao.exception;
+package nuris.epam.connection.exception;
 
 /**
  * Created by User on 08.03.2017.

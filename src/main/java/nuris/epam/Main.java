@@ -17,7 +17,6 @@ public class Main {
         MySqlCustomer mySqlCustomerDao = new MySqlCustomer();
         DaoFactory daoFactory = new DaoFactory();
         CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
-        System.out.println(mySqlCustomerDao.FIND_BY_LOGIN_PASSWORD);
         Customer customer = new Customer();
         customer.setRegisterDate(new Date(Calendar.getInstance().getTime().getTime()));
         customer.setLogin("frfrfrr");

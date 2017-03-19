@@ -1,7 +1,8 @@
 package nuris.epam.connection;
 
-import nuris.epam.dao.exception.PropertiesException;
-import nuris.epam.dao.exception.ResourcesException;
+import nuris.epam.connection.exception.ConnectionException;
+import nuris.epam.connection.exception.PropertiesException;
+import nuris.epam.connection.exception.ResourcesException;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -34,7 +35,7 @@ public class ConnectionPool {
     /**
      * Поле  - количество инициаилизированных соеденеий.
      */
-    private  int poolSize;
+    private int poolSize;
     /**
      * Поле  - Время ожидание пользователя до освобождения соедение.
      */
@@ -42,7 +43,6 @@ public class ConnectionPool {
     /**
      * Поле  - список для хранеиние инициализированных соеденеий.
      */
-
     private ResourcesQueue<Connection> connections = null;
 
     private static ConnectionPool connectionPool;
@@ -57,14 +57,12 @@ public class ConnectionPool {
     private void init() {
         try {
             loadProperties();
-            connections = new ResourcesQueue<Connection>(poolSize,timeOut);
+            connections = new ResourcesQueue<Connection>(poolSize, timeOut);
             while (connections.size() < poolSize) {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 connections.addResource(connection);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (PropertiesException e) {
+        } catch (SQLException | PropertiesException e) {
             e.printStackTrace();
         }
     }
@@ -95,14 +93,15 @@ public class ConnectionPool {
 
     /**
      * Берет из списка пулов соедениий одно соеденение к БД.
-     *{@link ConnectionPool#type}
+     * {@link ConnectionPool#type}
+     *
      * @return возвращяет соедение к БД.
      */
-    public Connection getConnection() {
+    public Connection getConnection() throws ResourcesException {
         try {
             return connections.takeResource();
         } catch (ResourcesException e) {
-            throw new RuntimeException("Error in a getConnection() , don't avalible connect", e);
+            throw new ResourcesException("Error in a getConnection() , don't avalible connect", e);
         }
     }
 
@@ -123,6 +122,19 @@ public class ConnectionPool {
             connectionPool = new ConnectionPool();
         }
         return connectionPool;
+    }
+
+    /**
+     * Закрывает все коннекты
+     */
+    public void closeAllConnections() throws ConnectionException {
+        for (Connection connection : connections.getResources()) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new ConnectionException("Cannot close all connections", e);
+            }
+        }
     }
 
     /**

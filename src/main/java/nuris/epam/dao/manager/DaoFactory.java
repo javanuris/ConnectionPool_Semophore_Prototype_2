@@ -1,11 +1,13 @@
 package nuris.epam.dao.manager;
 
 import nuris.epam.connection.ConnectionPool;
+import nuris.epam.connection.exception.ResourcesException;
 import nuris.epam.dao.BaseDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.BaseEntity;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Класс служит для управленеи коннектами, а именно раздача и закрытие коннектов.
@@ -30,7 +32,11 @@ public class DaoFactory {
     public DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
         typeDao = TypeDao.getInstance();
-        connection = connectionPool.getConnection();
+        try {
+            connection = connectionPool.getConnection();
+        } catch (ResourcesException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -65,5 +71,27 @@ public class DaoFactory {
         return typeDao;
     }
 
+    public void startTransaction() throws DaoException{
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+           throw  new DaoException("Cannot starting date transaction" , e);
+        }
+    }
+    public void commitTransaction() throws DaoException{
+        try {
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            throw  new DaoException("Cannot committing date transaction" , e);
+        }
+    }
 
+    public void rollbackTransacrion() throws DaoException{
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            throw  new DaoException("Cannot rollback date transaction" , e);
+        }
+    }
 }

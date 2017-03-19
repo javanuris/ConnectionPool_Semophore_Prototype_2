@@ -1,4 +1,4 @@
-package nuris.epam.dao.exception;
+package nuris.epam.connection.exception;
 
 @SuppressWarnings("serial")
 public class PropertiesException extends Exception {

@@ -1,6 +1,6 @@
 package nuris.epam.connection;
 
-import nuris.epam.dao.exception.ResourcesException;
+import nuris.epam.connection.exception.ResourcesException;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -76,6 +76,15 @@ public class ResourcesQueue<T> {
      */
     public int size() {
         return resource.size();
+    }
+
+    /**
+     * Список соеденеий
+     *
+     * @return возвращает список
+     */
+    public Queue<T> getResources() {
+        return resource;
     }
 }
 
