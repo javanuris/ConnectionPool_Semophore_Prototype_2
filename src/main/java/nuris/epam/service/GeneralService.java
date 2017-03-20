@@ -31,7 +31,7 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
         }
     }
 
-    public BaseEntity insert(BaseEntity baseEntity) throws ServiceException{
+    public BaseEntity insert(BaseEntity baseEntity) throws ServiceException {
         DaoFactory daoFactory = null;
         try {
             daoFactory = new DaoFactory();
@@ -45,7 +45,7 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
         }
     }
 
-    public void update(BaseEntity baseEntity) throws ServiceException{
+    public void update(BaseEntity baseEntity) throws ServiceException {
         DaoFactory daoFactory = null;
         try {
             daoFactory = new DaoFactory();
@@ -57,7 +57,8 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
             daoFactory.returnConnect();
         }
     }
-    public void delete(BaseEntity baseEntity) throws ServiceException{
+
+    public void delete(BaseEntity baseEntity) throws ServiceException {
         DaoFactory daoFactory = null;
         try {
             daoFactory = new DaoFactory();

@@ -14,26 +14,24 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class GenreService {
+    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
+
     public Genre findByGenre(int id) throws ServiceException {
         Genre genre;
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
         genre = (Genre) generalService.findById(id);
         return genre;
     }
 
     public Genre insert(Genre genre) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
         genre = (Genre) generalService.insert(genre);
         return genre;
     }
 
     public void update(Genre genre) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
         generalService.update(genre);
     }
 
     public void delete(Genre genre) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
         generalService.delete(genre);
     }
 

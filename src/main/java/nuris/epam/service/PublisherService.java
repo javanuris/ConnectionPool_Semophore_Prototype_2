@@ -14,30 +14,26 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class PublisherService {
+    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getPublisherDao());
 
     public Publisher findByPublisher(int id) throws ServiceException {
         Publisher publisher;
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getPublisherDao());
         publisher = (Publisher) generalService.findById(id);
         return publisher;
     }
 
     public Publisher insert(Publisher publisher) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getPublisherDao());
         publisher = (Publisher) generalService.insert(publisher);
         return publisher;
     }
 
     public void update(Publisher publisher) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getPublisherDao());
         generalService.update(publisher);
     }
 
     public void delete(Publisher publisher) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getPublisherDao());
         generalService.delete(publisher);
     }
-
 
     public List<Publisher> getAll() throws ServiceException {
         List<Publisher> list;

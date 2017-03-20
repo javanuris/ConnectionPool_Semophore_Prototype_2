@@ -19,28 +19,25 @@ public class BookService {
     private AuthorService authorService = new AuthorService();
     private PublisherService publisherService = new PublisherService();
     private GenreService genreService = new GenreService();
+    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
 
     public Book findById(int id) throws ServiceException {
         Book book;
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
         book = (Book) generalService.findById(id);
         fillBook(book);
         return book;
     }
 
     public Book insert(Book book) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
         book = (Book) generalService.insert(book);
         return book;
     }
 
     public void update(Book book) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
         generalService.update(book);
     }
 
     public void delete(Book book) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         generalService.delete(book);
     }
 

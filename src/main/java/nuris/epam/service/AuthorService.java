@@ -14,26 +14,24 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class AuthorService {
+    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
 
     public Author findByAuthor(int id) throws ServiceException {
         Author author;
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         author = (Author) generalService.findById(id);
         return author;
     }
+
     public Author insert(Author author) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         author = (Author) generalService.insert(author);
         return author;
     }
 
     public void update(Author author) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         generalService.update(author);
     }
 
     public void delete(Author author) throws ServiceException {
-        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         generalService.delete(author);
     }
 
