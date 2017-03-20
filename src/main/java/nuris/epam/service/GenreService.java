@@ -3,6 +3,7 @@ package nuris.epam.service;
 import nuris.epam.dao.GenreDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
+import nuris.epam.dao.manager.TypeDao;
 import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
 import nuris.epam.service.exception.ServiceException;
@@ -13,58 +14,27 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class GenreService {
-
     public Genre findByGenre(int id) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         Genre genre;
-        try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genre = genreDao.findById(id);
-            return genre;
-
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot findByGenre", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
+        genre = (Genre) generalService.findById(id);
+        return genre;
     }
 
     public Genre insert(Genre genre) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-
-        try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genre = genreDao.insert(genre);
-            return genre;
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot insert", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
+        genre = (Genre) generalService.insert(genre);
+        return genre;
     }
 
     public void update(Genre genre) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genreDao.update(genre);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot update", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
+        generalService.update(genre);
     }
 
     public void delete(Genre genre) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genreDao.delete(genre);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot delete", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
+        generalService.delete(genre);
     }
 
     public List<Genre> getAll() throws ServiceException {

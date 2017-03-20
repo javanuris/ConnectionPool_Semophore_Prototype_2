@@ -3,11 +3,12 @@ package nuris.epam.service;
 import nuris.epam.dao.BookDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
+import nuris.epam.dao.manager.TypeDao;
+
 import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
 import nuris.epam.service.exception.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,55 +21,27 @@ public class BookService {
     private GenreService genreService = new GenreService();
 
     public Book findById(int id) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         Book book;
-        try {
-            BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
-            book = bookDao.findById(id);
-            fillBook(book);
-            return book;
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot findByAuthor", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
+        book = (Book) generalService.findById(id);
+        fillBook(book);
+        return book;
     }
 
-    public int insert(Book book) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
-            book = bookDao.insert(book);
-            return book.getId();
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot insert", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+    public Book insert(Book book) throws ServiceException {
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
+        book = (Book) generalService.insert(book);
+        return book;
     }
 
     public void update(Book book) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
-            bookDao.update(book);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot update", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
+        generalService.update(book);
     }
 
     public void delete(Book book) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
-            bookDao.delete(book);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot delete", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
+        generalService.delete(book);
     }
 
     public int getBookCount() throws ServiceException {
@@ -83,13 +56,14 @@ public class BookService {
             daoFactory.returnConnect();
         }
     }
-    public  List<Book> getLimitBookByGenre(Genre genre , int start , int count) throws ServiceException{
+
+    public List<Book> getLimitBookByGenre(Genre genre, int start, int count) throws ServiceException {
         List<Book> list;
         DaoFactory daoFactory = new DaoFactory();
         try {
             BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
-            list = bookDao.getLimitBookByGenre(genre ,start , count);
-            for(Book book : list) {
+            list = bookDao.getLimitBookByGenre(genre, start, count);
+            for (Book book : list) {
                 fillBook(book);
             }
             return list;
@@ -101,14 +75,14 @@ public class BookService {
 
     }
 
-    public List<Book> getLimitBook(int start , int count) throws ServiceException{
+    public List<Book> getLimitBook(int start, int count) throws ServiceException {
         List<Book> list;
         DaoFactory daoFactory = new DaoFactory();
         try {
             BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
-            list = bookDao.getLimitBook(start , count);
-            for(Book book : list) {
-            fillBook(book);
+            list = bookDao.getLimitBook(start, count);
+            for (Book book : list) {
+                fillBook(book);
             }
             return list;
         } catch (DaoException e) {

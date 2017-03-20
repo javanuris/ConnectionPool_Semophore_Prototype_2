@@ -14,17 +14,19 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ConnectionPool connectionPool= ConnectionPool.getInstance();
-        connectionPool.size();
-        AuthorService authorService = new AuthorService();
-        System.out.println(authorService.findByAuthor2(2));
 
-        System.out.println(connectionPool.size());
+        BookService bookService = new BookService();
+
+
 
         Author author =new Author();
+        author.setId(9);
         author.setFirstName("Temit");
         author.setMiddleName("BIG");
         author.setLastName("LITTLE");
 
-        System.out.println(authorService.insert2(author));
+        System.out.println(bookService.findById(11));
+        System.out.println(connectionPool.size());
+
     }
 }

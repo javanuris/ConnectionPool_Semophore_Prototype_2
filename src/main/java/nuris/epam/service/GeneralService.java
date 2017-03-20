@@ -3,7 +3,6 @@ package nuris.epam.service;
 import nuris.epam.dao.BaseDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
-import nuris.epam.entity.Author;
 import nuris.epam.entity.BaseEntity;
 import nuris.epam.service.exception.ServiceException;
 
@@ -32,7 +31,7 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
         }
     }
 
-    public BaseEntity insert(BaseEntity baseEntity)throws ServiceException{
+    public BaseEntity insert(BaseEntity baseEntity) throws ServiceException{
         DaoFactory daoFactory = null;
         try {
             daoFactory = new DaoFactory();
@@ -41,6 +40,31 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
             return baseEntity;
         } catch (DaoException e) {
             throw new ServiceException("Can not insert", e);
+        } finally {
+            daoFactory.returnConnect();
+        }
+    }
+
+    public void update(BaseEntity baseEntity) throws ServiceException{
+        DaoFactory daoFactory = null;
+        try {
+            daoFactory = new DaoFactory();
+            T general = daoFactory.getDao(daoClass);
+            general.update(baseEntity);
+        } catch (DaoException e) {
+            throw new ServiceException("Can not update", e);
+        } finally {
+            daoFactory.returnConnect();
+        }
+    }
+    public void delete(BaseEntity baseEntity) throws ServiceException{
+        DaoFactory daoFactory = null;
+        try {
+            daoFactory = new DaoFactory();
+            T general = daoFactory.getDao(daoClass);
+            general.delete(baseEntity);
+        } catch (DaoException e) {
+            throw new ServiceException("Can not delete", e);
         } finally {
             daoFactory.returnConnect();
         }

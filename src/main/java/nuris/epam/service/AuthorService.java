@@ -16,67 +16,25 @@ import java.util.List;
 public class AuthorService {
 
     public Author findByAuthor(int id) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        Author author;
-        try {
-            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
-            author = authorDao.findById(id);
-            return author;
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot findByAuthor", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
-    }
-
-    public Author findByAuthor2(int id) throws ServiceException {
         Author author;
         GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         author = (Author) generalService.findById(id);
         return author;
     }
-    public Author insert2(Author author) throws ServiceException {
+    public Author insert(Author author) throws ServiceException {
         GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
         author = (Author) generalService.insert(author);
         return author;
     }
 
-
-    public Author insert(Author author) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
-            author = authorDao.insert(author);
-            return author;
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot insert", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
-    }
-
     public void update(Author author) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
-            authorDao.update(author);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot update", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
+        generalService.update(author);
     }
 
     public void delete(Author author) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
-        try {
-            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
-            authorDao.delete(author);
-        } catch (DaoException e) {
-            throw new ServiceException("Cannot delete", e);
-        } finally {
-            daoFactory.returnConnect();
-        }
+        GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
+        generalService.delete(author);
     }
 
     public List<Author> getAll() throws ServiceException {
