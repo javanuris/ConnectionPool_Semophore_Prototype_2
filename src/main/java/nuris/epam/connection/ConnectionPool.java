@@ -145,4 +145,8 @@ public class ConnectionPool {
     public String getType() {
         return type;
     }
+
+    public int size(){
+        return connections.size();
+    }
 }
