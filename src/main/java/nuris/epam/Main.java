@@ -19,8 +19,7 @@ public class Main {
         System.out.println(genre);
         BookService bookService = new BookService();
 
-        Book book = new Book();
 
-        System.out.println(bookService.findById(7));
+        System.out.println(bookService.getLimitBook(1 , 5));
     }
 }

@@ -4,6 +4,7 @@ import nuris.epam.dao.PublisherDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
 import nuris.epam.entity.Book;
+import nuris.epam.entity.Genre;
 import nuris.epam.entity.Publisher;
 import nuris.epam.service.exception.ServiceException;
 
@@ -62,6 +63,8 @@ public class PublisherService {
             daoFactory.returnConnect();
         }
     }
+
+
     public List<Publisher> getAll() throws ServiceException {
         List<Publisher> list;
         DaoFactory daoFactory = new DaoFactory();
@@ -82,6 +85,9 @@ public class PublisherService {
             PublisherDao publisherDao = (PublisherDao) daoFactory.getDao(daoFactory.typeDao().getPublisherDao());
             book.setPublisher(publisherDao.findByBook(book));
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getBook", e);}
+            throw new ServiceException("Cannot getBook", e);
+        }finally {
+            daoFactory.returnConnect();
+        }
     }
 }

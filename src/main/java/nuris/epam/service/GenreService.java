@@ -86,7 +86,10 @@ public class GenreService {
             GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
             book.setGenre(genreDao.findByBook(book));
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getBook", e);}
+            throw new ServiceException("Cannot getBook", e);
+        }finally {
+            daoFactory.returnConnect();
+        }
     }
 
 }

@@ -85,6 +85,9 @@ public class AuthorService {
             AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
             book.setAuthor(authorDao.findByBook(book));
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getBook", e);}
+            throw new ServiceException("Cannot getBook", e);
+        }finally {
+            daoFactory.returnConnect();
+        }
     }
 }
