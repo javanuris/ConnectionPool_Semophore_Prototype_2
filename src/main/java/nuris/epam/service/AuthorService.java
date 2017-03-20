@@ -1,9 +1,10 @@
 package nuris.epam.service;
 
+import nuris.epam.dao.AuthorDao;
 import nuris.epam.dao.GenreDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
-import nuris.epam.entity.Genre;
+import nuris.epam.entity.Author;
 import nuris.epam.service.exception.ServiceException;
 
 import java.util.List;
@@ -11,30 +12,29 @@ import java.util.List;
 /**
  * Created by User on 20.03.2017.
  */
-public class GenreService {
+public class AuthorService {
 
-    public Genre findByGenre(int id) throws ServiceException {
+    public Author findByAuthor(int id) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
-        Genre genre;
+        Author author;
+        AuthorDao authorDao = null;
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genre = genreDao.findById(id);
-            return genre;
-
+            authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
+            author = authorDao.findById(id);
+            return author;
         } catch (DaoException e) {
-            throw new ServiceException("Cannot findByGenre", e);
+            throw new ServiceException("Cannot findByAuthor", e);
         } finally {
             daoFactory.returnConnect();
         }
     }
 
-    public Genre insert(Genre genre) throws ServiceException {
+    public Author insert(Author author) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
-
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genre = genreDao.insert(genre);
-            return genre;
+            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
+            author = authorDao.insert(author);
+            return author;
         } catch (DaoException e) {
             throw new ServiceException("Cannot insert", e);
         } finally {
@@ -42,36 +42,34 @@ public class GenreService {
         }
     }
 
-    public void update(Genre genre) throws ServiceException {
+    public void update(Author author) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genreDao.update(genre);
+            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
+            authorDao.update(author);
         } catch (DaoException e) {
             throw new ServiceException("Cannot update", e);
         } finally {
             daoFactory.returnConnect();
         }
     }
-
-    public void delete(Genre genre) throws ServiceException {
+    public void delete(Author author) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            genreDao.delete(genre);
+            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
+            authorDao.delete(author);
         } catch (DaoException e) {
             throw new ServiceException("Cannot delete", e);
         } finally {
             daoFactory.returnConnect();
         }
     }
-
-    public List<Genre> getAll() throws ServiceException {
-        List<Genre> list;
+    public List<Author> getAll() throws ServiceException {
+        List<Author> list;
         DaoFactory daoFactory = new DaoFactory();
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            list = genreDao.getAll();
+            AuthorDao authorDao = (AuthorDao) daoFactory.getDao(daoFactory.typeDao().getAuthorDao());
+            list = authorDao.getAll();
             return list;
         } catch (DaoException e) {
             throw new ServiceException("Cannot getAll", e);
@@ -79,6 +77,4 @@ public class GenreService {
             daoFactory.returnConnect();
         }
     }
-
-
 }
