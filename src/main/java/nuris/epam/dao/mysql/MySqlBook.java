@@ -2,6 +2,7 @@ package nuris.epam.dao.mysql;
 
 import nuris.epam.dao.BookDao;
 import nuris.epam.dao.exception.DaoException;
+import nuris.epam.entity.Author;
 import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
 

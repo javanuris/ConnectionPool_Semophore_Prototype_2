@@ -73,6 +73,6 @@ public class Book extends BaseEntity {
 
     @Override
     public String toString() {
-        return getId() + "/" + name + "/" + date  + "/" + isbn;
+        return getId() + "/" + name + "/" + date  + "/" + isbn +"/"+ genre+"/"+author+"/"+publisher;
     }
 }

@@ -3,6 +3,7 @@ package nuris.epam.service;
 import nuris.epam.dao.GenreDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
+import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
 import nuris.epam.service.exception.ServiceException;
 
@@ -79,6 +80,13 @@ public class GenreService {
             daoFactory.returnConnect();
         }
     }
-
+    public void findByGenre(Book book)throws ServiceException {
+        DaoFactory daoFactory = new DaoFactory();
+        try {
+            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
+            book.setGenre(genreDao.findByBook(book));
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot getBook", e);}
+    }
 
 }
