@@ -14,7 +14,13 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class AuthorService {
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getAuthorDao());
+    private DaoFactory daoFactory;
+    private GeneralService generalService;
+
+    public AuthorService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+        generalService = new GeneralService(TypeDao.getInstance().getAuthorDao(), daoFactory);
+    }
 
     public Author findByAuthor(int id) throws ServiceException {
         Author author;

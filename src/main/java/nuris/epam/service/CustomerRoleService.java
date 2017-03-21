@@ -3,6 +3,7 @@ package nuris.epam.service;
 import nuris.epam.dao.CustomerRoleDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
+import nuris.epam.dao.manager.TypeDao;
 import nuris.epam.entity.Customer;
 import nuris.epam.entity.CustomerRole;
 import nuris.epam.service.exception.ServiceException;

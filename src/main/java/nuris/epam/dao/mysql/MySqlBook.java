@@ -165,7 +165,7 @@ public class MySqlBook extends BookDao {
     private PreparedStatement statementBook(PreparedStatement statement, Book item) throws SQLException {
         statement.setString(1, item.getName());
         statement.setDate(2, item.getDate());
-        statement.setInt(3, item.getIsbn());
+        statement.setString(3, item.getIsbn());
         statement.setInt(4, item.getGenre().getId());
         statement.setInt(5, item.getAuthor().getId());
         statement.setInt(6, item.getPublisher().getId());

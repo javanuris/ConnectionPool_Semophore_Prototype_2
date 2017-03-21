@@ -16,10 +16,12 @@ import java.util.List;
  */
 public class BookService {
 
-    private AuthorService authorService = new AuthorService();
-    private PublisherService publisherService = new PublisherService();
-    private GenreService genreService = new GenreService();
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao());
+    DaoFactory daoFactory = new DaoFactory();
+    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao(), daoFactory);
+    private AuthorService authorService = new AuthorService(daoFactory);
+    private PublisherService publisherService = new PublisherService(daoFactory);
+    private GenreService genreService = new GenreService(daoFactory);
+
 
     public Book findById(int id) throws ServiceException {
         Book book;
@@ -42,8 +44,8 @@ public class BookService {
     }
 
     public int getBookCount() throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
             BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
             int count = bookDao.getBookCount();
             return count;
@@ -56,8 +58,9 @@ public class BookService {
 
     public List<Book> getLimitBookByGenre(Genre genre, int start, int count) throws ServiceException {
         List<Book> list;
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
+
             BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
             list = bookDao.getLimitBookByGenre(genre, start, count);
             for (Book book : list) {
@@ -74,8 +77,8 @@ public class BookService {
 
     public List<Book> getLimitBook(int start, int count) throws ServiceException {
         List<Book> list;
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
             BookDao bookDao = (BookDao) daoFactory.getDao(daoFactory.typeDao().getBookDao());
             list = bookDao.getLimitBook(start, count);
             for (Book book : list) {

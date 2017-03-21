@@ -14,7 +14,13 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class PublisherService {
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getPublisherDao());
+    DaoFactory daoFactory;
+    private GeneralService generalService;
+
+    PublisherService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+        generalService = new GeneralService(TypeDao.getInstance().getPublisherDao(), daoFactory);
+    }
 
     public Publisher findByPublisher(int id) throws ServiceException {
         Publisher publisher;
@@ -37,8 +43,9 @@ public class PublisherService {
 
     public List<Publisher> getAll() throws ServiceException {
         List<Publisher> list;
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
+
             PublisherDao publisherDao = (PublisherDao) daoFactory.getDao(daoFactory.typeDao().getPublisherDao());
             list = publisherDao.getAll();
             return list;
@@ -50,8 +57,9 @@ public class PublisherService {
     }
 
     public void findByPublisher(Book book) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
+
             PublisherDao publisherDao = (PublisherDao) daoFactory.getDao(daoFactory.typeDao().getPublisherDao());
             book.setPublisher(publisherDao.findByBook(book));
         } catch (DaoException e) {

@@ -14,8 +14,13 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class CityService {
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getCityDao());
+    private DaoFactory daoFactory;
+    private GeneralService generalService;
 
+    CityService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+        generalService = new GeneralService(TypeDao.getInstance().getCityDao(), daoFactory);
+    }
     public City findByCity(int id) throws ServiceException {
         City city;
         city = (City) generalService.findById(id);
@@ -36,8 +41,9 @@ public class CityService {
     }
 
     public void findByCity(Person person) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
+
             CityDao cityDao  = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
                     person.setCity(cityDao.findByPerson(person));
         } catch (DaoException e) {
@@ -49,8 +55,9 @@ public class CityService {
 
     public List<City> getAll() throws ServiceException {
         List<City> list;
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
+
             CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
             list = cityDao.getAll();
             return list;

@@ -90,6 +90,7 @@ public class DaoFactory {
     public void rollbackTransacrion() throws DaoException{
         try {
             connection.rollback();
+            System.out.println("this is roolBack");
         } catch (SQLException e) {
             throw  new DaoException("Cannot rollback date transaction" , e);
         }

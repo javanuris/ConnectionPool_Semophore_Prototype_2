@@ -13,7 +13,13 @@ import nuris.epam.service.exception.ServiceException;
  */
 public class AvatarService {
 
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getAvatarDao());
+    private DaoFactory daoFactory;
+    private GeneralService generalService;
+
+    public AvatarService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+        generalService = new GeneralService(TypeDao.getInstance().getAuthorDao(), daoFactory);
+    }
 
     public Avatar findByAuthor(int id) throws ServiceException {
         Avatar avatar;
@@ -35,8 +41,8 @@ public class AvatarService {
     }
 
     public void findByAvatar(Customer customer) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
         try {
+            DaoFactory daoFactory = new DaoFactory();
             AvatarDao avatarDao = (AvatarDao) daoFactory.getDao(daoFactory.typeDao().getAvatarDao());
             customer.setAvatar(avatarDao.findByCustomer(customer));
         } catch (DaoException e) {

@@ -13,7 +13,7 @@ public class Person extends BaseEntity{
 
     private String middleName;
 
-    private int phone;
+    private String phone;
 
     private Date birthday;
 
@@ -49,11 +49,11 @@ public class Person extends BaseEntity{
         this.middleName = middleName;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

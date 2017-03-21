@@ -31,7 +31,7 @@ public class MySqlPerson extends PersonDao {
     private static final String ID_CUSTOMER = "id_customer";
 
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(PERSON).whereQs(ID_PERSON).build();
-    private static final String INSERT = Sql.create().insert().var(PERSON).values(ID_PERSON, 1).build();
+    private static final String INSERT = Sql.create().insert().var(PERSON).values(ID_PERSON, 7).build();
     private static final String UPDATE = Sql.create().update().var(PERSON).set().varQs(FIRST_NAME).c().varQs(LAST_NAME).c().varQs(MIDDLE_NAME).c().varQs(PHONE).c().varQs(BIRTHDAY).c().varQs(ADDRESS).c().varQs(ID_CITY).whereQs(ID_PERSON).build();
     private static final String DELETE = Sql.create().delete().var(PERSON).whereQs(ID_PERSON).build();
     private static final String FIND_BY_CUSTOMER = Sql.create().select().varS(PERSON, ID_PERSON).c().varS(PERSON, FIRST_NAME).c().varS(PERSON, LAST_NAME).c().varS(PERSON, MIDDLE_NAME).c().varS(PERSON, PHONE).c().varS(PERSON, BIRTHDAY).c().varS(PERSON, ADDRESS).from().var(PERSON).join(CUSTOMER).varS(CUSTOMER, ID_PERSON).eq().varS(PERSON, ID_PERSON).whereQs(CUSTOMER, ID_CUSTOMER).build();
@@ -96,7 +96,7 @@ public class MySqlPerson extends PersonDao {
     }
 
     @Override
-    public Person findByBook(Customer customer) throws DaoException {
+    public Person findByCustomer(Customer customer) throws DaoException {
         Person person = null;
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_CUSTOMER)) {
@@ -118,7 +118,7 @@ public class MySqlPerson extends PersonDao {
         statement.setString(1, item.getFirstName());
         statement.setString(2, item.getLastName());
         statement.setString(3, item.getMiddleName());
-        statement.setInt(4, item.getPhone());
+        statement.setString(4, item.getPhone());
         statement.setDate(5, item.getBirthday());
         statement.setString(6, item.getAdrees());
         statement.setInt(7 , item.getCity().getId());
@@ -130,7 +130,7 @@ public class MySqlPerson extends PersonDao {
         person.setFirstName(resultSet.getString(2));
         person.setLastName(resultSet.getString(3));
         person.setMiddleName(resultSet.getString(4));
-        person.setPhone(resultSet.getInt(5));
+        person.setPhone(resultSet.getString(5));
         person.setBirthday(resultSet.getDate(6));
         return person;
     }

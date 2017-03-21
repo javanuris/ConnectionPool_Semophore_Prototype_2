@@ -12,15 +12,16 @@ import nuris.epam.service.exception.ServiceException;
 public class GeneralService<T extends BaseDao<BaseEntity>> {
 
     private Class<T> daoClass;
+    private DaoFactory daoFactory;
 
-    public GeneralService(Class<T> daoClass) {
+    public GeneralService(Class<T> daoClass, DaoFactory daoFactory) {
         this.daoClass = daoClass;
+        this.daoFactory = daoFactory;
     }
 
     public BaseEntity findById(int id) throws ServiceException {
         DaoFactory daoFactory = null;
         try {
-            daoFactory = new DaoFactory();
             T general = daoFactory.getDao(daoClass);
             BaseEntity baseEntity = general.findById(id);
             return baseEntity;
@@ -32,13 +33,18 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
     }
 
     public BaseEntity insert(BaseEntity baseEntity) throws ServiceException {
-        DaoFactory daoFactory = null;
         try {
-            daoFactory = new DaoFactory();
             T general = daoFactory.getDao(daoClass);
+            daoFactory.startTransaction();
             baseEntity = general.insert(baseEntity);
+            daoFactory.commitTransaction();
             return baseEntity;
         } catch (DaoException e) {
+            try {
+                daoFactory.rollbackTransacrion();
+            } catch (DaoException e1) {
+               throw new ServiceException("can't rollback transaction" ,e1);
+            }
             throw new ServiceException("Can not insert", e);
         } finally {
             daoFactory.returnConnect();
@@ -46,9 +52,7 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
     }
 
     public void update(BaseEntity baseEntity) throws ServiceException {
-        DaoFactory daoFactory = null;
         try {
-            daoFactory = new DaoFactory();
             T general = daoFactory.getDao(daoClass);
             general.update(baseEntity);
         } catch (DaoException e) {
@@ -59,9 +63,7 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
     }
 
     public void delete(BaseEntity baseEntity) throws ServiceException {
-        DaoFactory daoFactory = null;
         try {
-            daoFactory = new DaoFactory();
             T general = daoFactory.getDao(daoClass);
             general.delete(baseEntity);
         } catch (DaoException e) {

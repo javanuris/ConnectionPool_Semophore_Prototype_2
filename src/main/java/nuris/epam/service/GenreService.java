@@ -14,7 +14,14 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class GenreService {
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getGenreDao());
+
+    private DaoFactory daoFactory;
+    private GeneralService generalService;
+
+    GenreService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+        generalService = new GeneralService(TypeDao.getInstance().getGenreDao(), daoFactory);
+    }
 
     public Genre findByGenre(int id) throws ServiceException {
         Genre genre;
@@ -48,14 +55,15 @@ public class GenreService {
             daoFactory.returnConnect();
         }
     }
-    public void findByGenre(Book book)throws ServiceException {
+
+    public void findByGenre(Book book) throws ServiceException {
         DaoFactory daoFactory = new DaoFactory();
         try {
             GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
             book.setGenre(genreDao.findByBook(book));
         } catch (DaoException e) {
             throw new ServiceException("Cannot getBook", e);
-        }finally {
+        } finally {
             daoFactory.returnConnect();
         }
     }
