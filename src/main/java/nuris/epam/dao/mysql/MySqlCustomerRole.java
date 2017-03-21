@@ -22,7 +22,11 @@ public class MySqlCustomerRole  extends CustomerRoleDao{
     private static final String ID_CUSTOMER = "id_book";
 
     private static final String FIND_BY_CUSTOMER = Sql.create().select().varS(ROLE, ID_ROLE).c().varS(ROLE, NAME).from().var(ROLE).join(CUSTOMER).varS(CUSTOMER, ID_ROLE).eq().varS(ROLE, ID_ROLE).whereQs(CUSTOMER, ID_CUSTOMER).build();
+    private static final String FIND_BY_NAME_ROLE = Sql.create().select().allFrom().var(ROLE).whereQs(NAME).build();
 
+    public void sql(){
+        System.out.println(FIND_BY_NAME_ROLE);
+    }
 
     @Override
     public CustomerRole findByCustomer(Customer customer) throws DaoException {
@@ -30,6 +34,24 @@ public class MySqlCustomerRole  extends CustomerRoleDao{
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_CUSTOMER)) {
                 statement.setInt(1, customer.getId());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        customerRole = itemRole(customerRole, resultSet);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+        }
+        return customerRole;
+    }
+
+    @Override
+    public CustomerRole findRoleByName(String nameRole) throws DaoException{
+        CustomerRole customerRole = null;
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_NAME_ROLE)) {
+                statement.setString(1, nameRole);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
                         customerRole = itemRole(customerRole, resultSet);

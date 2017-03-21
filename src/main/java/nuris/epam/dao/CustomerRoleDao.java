@@ -11,4 +11,6 @@ public abstract class CustomerRoleDao extends BaseDao<CustomerRole>{
 
     public abstract CustomerRole findByCustomer(Customer customer) throws DaoException;
 
+    public abstract CustomerRole findRoleByName(String nameRole) throws DaoException;
+
 }
