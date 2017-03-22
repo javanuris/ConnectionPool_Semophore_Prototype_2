@@ -4,7 +4,6 @@ import nuris.epam.dao.GenreDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Book;
 import nuris.epam.entity.Genre;
-import nuris.epam.entity.Publisher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,28 +23,13 @@ public class MySqlGenre extends GenreDao {
     public static final String ID_BOOK = "id_book";
 
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(GENRE).whereQs(ID_GENRE).build();
-    private static final String INSERT = Sql.create().insert().var(GENRE).values(ID_GENRE, 1).build();
-    private static final String UPDATE = Sql.create().update().var(GENRE).set().varQs(NAME).whereQs(ID_GENRE).build();
-    private static final String DELETE = Sql.create().delete().var(GENRE).whereQs(ID_GENRE).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(GENRE).build();
     private static final String FIND_BY_BOOK = Sql.create().select().varS(GENRE, ID_GENRE).c().varS(GENRE, NAME).from().var(GENRE).join(BOOK).varS(BOOK, ID_GENRE).eq().varS(GENRE, ID_GENRE).whereQs(BOOK, ID_BOOK).build();
 
 
     @Override
     public Genre insert(Genre item) throws DaoException {
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(INSERT,PreparedStatement.RETURN_GENERATED_KEYS)) {
-                statement.setString(1, item.getName());
-                statement.executeUpdate();
-                try(ResultSet resultSet = statement.getGeneratedKeys()){
-                    resultSet.next();
-                    item.setId(resultSet.getInt(1));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
-        }
-        return item;
+        return null;
     }
 
     @Override
@@ -68,16 +52,14 @@ public class MySqlGenre extends GenreDao {
 
     @Override
     public void update(Genre item) throws DaoException {
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(UPDATE)) {
-                statement.setString(1, item.getName());
-                statement.setInt(2, item.getId());
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
-        }
-}
+
+    }
+
+    @Override
+    public void delete(Genre item) throws DaoException {
+
+    }
+
 
     @Override
     public List<Genre> getAll() throws DaoException {
@@ -96,18 +78,6 @@ public class MySqlGenre extends GenreDao {
             throw new DaoException("Can not get allList from " + this.getClass().getSimpleName(), e);
         }
         return list;
-    }
-
-    @Override
-    public void delete(Genre item) throws DaoException {
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(DELETE)) {
-                statement.setInt(1, item.getId());
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Cannot delete Genre entity from " + this.getClass().getSimpleName() + "/" + item, e);
-        }
     }
 
 

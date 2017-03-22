@@ -12,7 +12,6 @@ import java.util.List;
 public class Book extends BaseEntity {
     private Author author;
     private Genre genre;
-    private Publisher publisher;
     private String name;
     private String isbn;
     private Date date;
@@ -20,7 +19,6 @@ public class Book extends BaseEntity {
     public Book(){
         author = new Author();
         genre = new Genre();
-        publisher = new Publisher();
     }
 
     public Genre getGenre() {
@@ -29,14 +27,6 @@ public class Book extends BaseEntity {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
     }
 
     public Author getAuthor() {
@@ -73,6 +63,6 @@ public class Book extends BaseEntity {
 
     @Override
     public String toString() {
-        return getId() + "/" + name + "/" + date  + "/" + isbn +"/"+ genre+"/"+author+"/"+publisher;
+        return getId() + "/" + name + "/" + date  + "/" + isbn +"/"+ genre+"/"+author;
     }
 }

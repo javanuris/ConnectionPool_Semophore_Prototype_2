@@ -17,18 +17,18 @@ import java.util.List;
  * Created by User on 15.03.2017.
  */
 public class MySqlBook extends BookDao {
+
     private static final String BOOK = "book";
     private static final String ID_BOOK = "id_book";
     private static final String NAME = "name";
     private static final String YEAR = "year";
     private static final String ISBN = "isbn";
     private static final String ID_AUTHOR = "id_author";
-    private static final String ID_PUBLISHER = "id_publisher";
     private static final String ID_GENRE = "id_genre";
 
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(BOOK).whereQs(ID_BOOK).build();
     private static final String INSERT = Sql.create().insert().var(BOOK).values(ID_BOOK, 6).build();
-    private static final String UPDATE = Sql.create().update().var(BOOK).set().varQs(NAME).c().varQs(YEAR).c().varQs(ISBN).c().varQs(ID_GENRE).c().varQs(ID_AUTHOR).c().varQs(ID_PUBLISHER).whereQs(ID_BOOK).build();
+    private static final String UPDATE = Sql.create().update().var(BOOK).set().varQs(NAME).c().varQs(YEAR).c().varQs(ISBN).c().varQs(ID_GENRE).c().varQs(ID_AUTHOR).c().whereQs(ID_BOOK).build();
     private static final String DELETE = Sql.create().delete().var(BOOK).whereQs(ID_BOOK).build();
     private static final String COUNT_BOOK = Sql.create().select().count().from().var(BOOK).build();
     private static final String LIMIT_BOOK = Sql.create().select().allFrom().var(BOOK).limit().build();
@@ -74,7 +74,7 @@ public class MySqlBook extends BookDao {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(UPDATE)) {
                 statementBook(statement, item);
-                statement.setInt(7, item.getId());
+                statement.setInt(6, item.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -94,7 +94,6 @@ public class MySqlBook extends BookDao {
             throw new DaoException("Cannot delete Book entity from " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
-
 
     @Override
     public int getBookCount() throws DaoException {
@@ -159,6 +158,7 @@ public class MySqlBook extends BookDao {
         book.setId(resultSet.getInt(1));
         book.setName(resultSet.getString(2));
         book.setDate(resultSet.getDate(3));
+        book.setIsbn(resultSet.getString(4));
         return book;
     }
 
@@ -168,7 +168,6 @@ public class MySqlBook extends BookDao {
         statement.setString(3, item.getIsbn());
         statement.setInt(4, item.getGenre().getId());
         statement.setInt(5, item.getAuthor().getId());
-        statement.setInt(6, item.getPublisher().getId());
         return statement;
     }
 

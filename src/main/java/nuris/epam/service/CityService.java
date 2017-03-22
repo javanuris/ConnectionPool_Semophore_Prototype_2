@@ -14,57 +14,76 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class CityService {
-    private DaoFactory daoFactory;
-    private GeneralService generalService;
-
-    CityService(DaoFactory daoFactory) {
-        this.daoFactory = daoFactory;
-        generalService = new GeneralService(new TypeDao().getCityDao(), daoFactory);
-    }
-    public City findByCity(int id) throws ServiceException {
-        City city;
-        city = (City) generalService.findById(id);
-        return city;
-    }
 
     public City insert(City city) throws ServiceException {
-        city = (City) generalService.insert(city);
-        return city;
+        try {
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
+                city = cityDao.insert(city);
+                return city;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot insert date", e);
+        }
     }
 
     public void update(City city) throws ServiceException {
-        generalService.update(city);
+        try {
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
+                cityDao.update(city);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot update date", e);
+        }
     }
 
     public void delete(City city) throws ServiceException {
-        generalService.delete(city);
+        try {
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
+                cityDao.delete(city);
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot update date", e);
+        }
     }
 
     public void findByPerson(Person person) throws ServiceException {
         try {
-            DaoFactory daoFactory = new DaoFactory();
-
-            CityDao cityDao  = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
-                    person.setCity(cityDao.findByPerson(person));
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
+                person.setCity(cityDao.findByPerson(person));
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getCity", e);
-        } finally {
-            daoFactory.returnConnect();
+            throw new ServiceException("Cannot update date", e);
         }
     }
 
     public List<City> getAll() throws ServiceException {
         List<City> list;
         try {
-            DaoFactory daoFactory = new DaoFactory();
-
-            CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
-            list = cityDao.getAll();
-            return list;
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
+                list = cityDao.getAll();
+                return list;
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getAll", e);
-        } finally {
-            daoFactory.returnConnect();
+            throw new ServiceException("Cannot getAll date", e);
         }
     }
+
+    public City findById(int id) throws ServiceException {
+        City city;
+        try {
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CityDao cityDao = (CityDao) daoFactory.getDao(daoFactory.typeDao().getCityDao());
+                city = cityDao.findById(id);
+                return city;
+            }
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot id date", e);
+        }
+    }
+
 }

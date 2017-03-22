@@ -3,9 +3,9 @@ package nuris.epam;
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.entity.*;
 import nuris.epam.service.CustomerService;
-import nuris.epam.service.GeneralService;
-import nuris.epam.service.GenreService;
+import nuris.epam.service.PersonService;
 import nuris.epam.service.exception.ServiceException;
+
 import java.util.Calendar;
 
 /**
@@ -27,30 +27,23 @@ public class Main {
         person.setId(14);
         person.setFirstName("Mars");
         person.setLastName("Moon");
-        person.setMiddleName("Zhanerke");
-        person.setPhone("----//--");
-        person.setAdrees("13XXX13");
+        person.setMiddleName("NUROSPASWORF");
+        person.setPhone("NUROSPASWORF//NUROSPASWORF");
+        person.setAdreess("NUROSPASWORF");
         person.setBirthday(date);
 
         Customer customer = new Customer();
         customer.setId(3);
         customer.setPerson(person);
-        customer.setPassword("****************");
+        customer.setPassword("NURIS");
         customer.setLogin("Mars");
         customer.setRegisterDate(date);
 
-        customer.setCustomerRole(customerRole);
 
         customerService.registerCustomer(customer);
-        customerService.updateCustomer(customer);
-
-        System.out.println(customerService.findById(300));
-
-        Genre genre = new Genre();
-        genre.setName("NuirsHoror");
-        GenreService genreService = new GenreService();
-        genreService.insert(genre);
+        System.out.println(customerService.findByCustomer(3));
         System.out.println(connectionPool.size());
+
 
     }
 }

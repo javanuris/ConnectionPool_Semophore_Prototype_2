@@ -120,7 +120,7 @@ public class MySqlPerson extends PersonDao {
         statement.setString(3, item.getMiddleName());
         statement.setString(4, item.getPhone());
         statement.setDate(5, item.getBirthday());
-        statement.setString(6, item.getAdrees());
+        statement.setString(6, item.getAdreess());
         statement.setInt(7 , item.getCity().getId());
         return statement;
     }
@@ -132,6 +132,7 @@ public class MySqlPerson extends PersonDao {
         person.setMiddleName(resultSet.getString(4));
         person.setPhone(resultSet.getString(5));
         person.setBirthday(resultSet.getDate(6));
+        person.setAdreess(resultSet.getNString(7));
         return person;
     }
 }

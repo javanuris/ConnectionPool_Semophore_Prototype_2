@@ -28,7 +28,7 @@ public class MySqlCity extends CityDao {
     private static final String DELETE = Sql.create().delete().var(CITY).whereQs(ID_CITY).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(CITY).build();
 
-    private static final String FIND_BY_BOOK = Sql.create().select().varS(CITY, ID_CITY).c()
+    private static final String FIND_BY_PERSON = Sql.create().select().varS(CITY, ID_CITY).c()
             .varS(CITY, NAME).from().var(CITY).join(PERSON).varS(PERSON, ID_CITY).eq()
             .varS(CITY, ID_CITY).whereQs(PERSON, ID_PERSON).build();
 
@@ -115,7 +115,7 @@ public class MySqlCity extends CityDao {
     public City findByPerson(Person person) throws DaoException {
         City city = null;
         try {
-            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_BOOK)) {
+            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_PERSON)) {
                 statement.setInt(1, person.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {

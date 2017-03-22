@@ -13,15 +13,14 @@ import nuris.epam.service.exception.ServiceException;
  */
 public class CustomerRoleService {
 
-    public void findByRole(Customer customer) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
+    public void findByCustomer(Customer customer) throws ServiceException {
         try {
-            CustomerRoleDao customerRoleDao = (CustomerRoleDao) daoFactory.getDao(daoFactory.typeDao().getCustomerRoleDao());
-            customer.setCustomerRole(customerRoleDao.findByCustomer(customer));
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                CustomerRoleDao customerRoleDao = (CustomerRoleDao) daoFactory.getDao(daoFactory.typeDao().getCustomerRoleDao());
+                customer.setCustomerRole(customerRoleDao.findByCustomer(customer));
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot find by Role", e);
-        } finally {
-            daoFactory.returnConnect();
+            throw new ServiceException("Cannot update date", e);
         }
     }
 

@@ -17,7 +17,7 @@ public class Person extends BaseEntity{
 
     private Date birthday;
 
-    private String adrees;
+    private String address;
 
     private City city;
 
@@ -65,12 +65,12 @@ public class Person extends BaseEntity{
         this.birthday = birthday;
     }
 
-    public String getAdrees() {
-        return adrees;
+    public String getAdreess() {
+        return address;
     }
 
-    public void setAdrees(String adrees) {
-        this.adrees = adrees;
+    public void setAdreess(String address) {
+        this.address = address;
     }
 
     public City getCity() {
@@ -83,6 +83,6 @@ public class Person extends BaseEntity{
 
     @Override
     public String toString() {
-        return getId()+ "/"+ firstName+"/"+lastName+"/"+middleName+"/"+phone+"/"+birthday+"/"+adrees+"/"+city;
+        return getId()+ "/"+ firstName+"/"+lastName+"/"+middleName+"/"+phone+"/"+birthday+"/"+address+"/"+city;
     }
 }

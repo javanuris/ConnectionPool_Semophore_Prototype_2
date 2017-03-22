@@ -10,7 +10,7 @@ public class TypeDao {
     private static TypeDao typeDao;
     private ConnectionPool connectType;
 
-    public TypeDao() {
+    private TypeDao() {
         connectType = ConnectionPool.getInstance();
     }
 
@@ -21,15 +21,6 @@ public class TypeDao {
             return MySqlAuthor.class;
         }
     }
-
-    public Class getPublisherDao() {
-        if (connectType.getType().equalsIgnoreCase("mysql")) {
-            return MySqlPublisher.class;
-        } else {
-            return MySqlPublisher.class;
-        }
-    }
-
     public Class getGenreDao() {
         if (connectType.getType().equalsIgnoreCase("mysql")) {
             return MySqlGenre.class;
@@ -84,11 +75,10 @@ public class TypeDao {
             return MySqlCustomer.class;
         }
     }
-
-/*    public static TypeDao getInstance() {
+    public static TypeDao getInstance() {
         if (typeDao == null) {
             typeDao = new TypeDao();
         }
         return typeDao;
-    }*/
+    }
 }

@@ -31,7 +31,7 @@ public class DaoFactory implements AutoCloseable {
 
     public DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
-        typeDao = new TypeDao();
+        typeDao = TypeDao.getInstance();
         try {
             connection = connectionPool.getConnection();
         } catch (ResourcesException e) {
@@ -98,7 +98,7 @@ public class DaoFactory implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         returnConnect();
         System.out.println("Return Connect");
     }
