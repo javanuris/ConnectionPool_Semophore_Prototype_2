@@ -10,7 +10,7 @@ public class TypeDao {
     private static TypeDao typeDao;
     private ConnectionPool connectType;
 
-    private TypeDao() {
+    public TypeDao() {
         connectType = ConnectionPool.getInstance();
     }
 
@@ -85,10 +85,10 @@ public class TypeDao {
         }
     }
 
-    public static TypeDao getInstance() {
+/*    public static TypeDao getInstance() {
         if (typeDao == null) {
             typeDao = new TypeDao();
         }
         return typeDao;
-    }
+    }*/
 }

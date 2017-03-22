@@ -14,23 +14,45 @@ import java.util.List;
  * Created by User on 20.03.2017.
  */
 public class GenreService {
-
     private DaoFactory daoFactory;
     private GeneralService generalService;
 
-    GenreService(DaoFactory daoFactory) {
+    public GenreService() {}
+
+    public GenreService(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
-        generalService = new GeneralService(TypeDao.getInstance().getGenreDao(), daoFactory);
+        generalService = new GeneralService(new TypeDao().getGenreDao(), daoFactory);
     }
 
     public Genre findByGenre(int id) throws ServiceException {
+        DaoFactory daoFactory = new DaoFactory();
         Genre genre;
-        genre = (Genre) generalService.findById(id);
-        return genre;
+        try {
+            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
+            genre = (Genre) generalService.findById(id);
+            return genre;
+        } catch (DaoException e) {
+            throw new ServiceException("Cannot find by Genre Id", e);
+        } finally {
+            daoFactory.returnConnect();
+        }
     }
 
     public Genre insert(Genre genre) throws ServiceException {
-        genre = (Genre) generalService.insert(genre);
+        DaoFactory daoFactory = new DaoFactory();
+        try {
+            if (generalService == null) {
+                GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
+                genre = genreDao.insert(genre);
+            } else {
+                genre = (Genre) generalService.insert(genre);
+                return genre;
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        } finally {
+            daoFactory.returnConnect();
+        }
         return genre;
     }
 

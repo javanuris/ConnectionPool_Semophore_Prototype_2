@@ -16,9 +16,9 @@ public class PersonService {
     private GeneralService generalService;
     PersonService(DaoFactory daoFactory){
         this.daoFactory = daoFactory;
-        generalService = new GeneralService(TypeDao.getInstance().getPersonDao(), daoFactory);
+        generalService = new GeneralService(new TypeDao().getPersonDao(), daoFactory);
     }
-    public Person findByAuthor(int id) throws ServiceException {
+    public Person findById(int id) throws ServiceException {
         Person person;
         person = (Person) generalService.findById(id);
         return person;
@@ -44,8 +44,9 @@ public class PersonService {
             customer.setPerson(personDao.findByCustomer(customer));
         } catch (DaoException e) {
             throw new ServiceException("Cannot find by Avatar", e);
-        } finally {
+        }finally {
             daoFactory.returnConnect();
         }
+
     }
 }

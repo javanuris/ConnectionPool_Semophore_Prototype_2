@@ -19,7 +19,7 @@ public class AuthorService {
 
     public AuthorService(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
-        generalService = new GeneralService(TypeDao.getInstance().getAuthorDao(), daoFactory);
+        generalService = new GeneralService(new TypeDao().getAuthorDao(), daoFactory);
     }
 
     public Author findByAuthor(int id) throws ServiceException {

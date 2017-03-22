@@ -20,15 +20,13 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
     }
 
     public BaseEntity findById(int id) throws ServiceException {
-        DaoFactory daoFactory = null;
+
         try {
             T general = daoFactory.getDao(daoClass);
             BaseEntity baseEntity = general.findById(id);
             return baseEntity;
         } catch (DaoException e) {
             throw new ServiceException("Can not find by id", e);
-        } finally {
-            daoFactory.returnConnect();
         }
     }
 
@@ -41,13 +39,11 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
             return baseEntity;
         } catch (DaoException e) {
             try {
-                daoFactory.rollbackTransacrion();
+                daoFactory.rollbackTransaction();
             } catch (DaoException e1) {
                throw new ServiceException("can't rollback transaction" ,e1);
             }
             throw new ServiceException("Can not insert", e);
-        } finally {
-            daoFactory.returnConnect();
         }
     }
 
@@ -56,9 +52,13 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
             T general = daoFactory.getDao(daoClass);
             general.update(baseEntity);
         } catch (DaoException e) {
+            try {
+                daoFactory.rollbackTransaction();
+            } catch (DaoException e1) {
+                throw new ServiceException("can't rollback transaction" ,e1);
+            }
+
             throw new ServiceException("Can not update", e);
-        } finally {
-            daoFactory.returnConnect();
         }
     }
 
@@ -67,9 +67,12 @@ public class GeneralService<T extends BaseDao<BaseEntity>> {
             T general = daoFactory.getDao(daoClass);
             general.delete(baseEntity);
         } catch (DaoException e) {
+            try {
+                daoFactory.rollbackTransaction();
+            } catch (DaoException e1) {
+                throw new ServiceException("can't rollback transaction" ,e1);
+            }
             throw new ServiceException("Can not delete", e);
-        } finally {
-            daoFactory.returnConnect();
         }
     }
 }

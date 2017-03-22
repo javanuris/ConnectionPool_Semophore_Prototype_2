@@ -15,7 +15,7 @@ import java.sql.SQLException;
  *
  * @author Kalenov Nurislam
  */
-public class DaoFactory {
+public class DaoFactory implements AutoCloseable {
     /**
      * Поле  - содержит пул коннектов
      */
@@ -31,7 +31,7 @@ public class DaoFactory {
 
     public DaoFactory() {
         connectionPool = ConnectionPool.getInstance();
-        typeDao = TypeDao.getInstance();
+        typeDao = new TypeDao();
         try {
             connection = connectionPool.getConnection();
         } catch (ResourcesException e) {
@@ -71,28 +71,35 @@ public class DaoFactory {
         return typeDao;
     }
 
-    public void startTransaction() throws DaoException{
+    public void startTransaction() throws DaoException {
         try {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
-           throw  new DaoException("Cannot starting date transaction" , e);
+            throw new DaoException("Cannot starting date transaction", e);
         }
     }
-    public void commitTransaction() throws DaoException{
+
+    public void commitTransaction() throws DaoException {
         try {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
-            throw  new DaoException("Cannot committing date transaction" , e);
+            throw new DaoException("Cannot committing date transaction", e);
         }
     }
 
-    public void rollbackTransacrion() throws DaoException{
+    public void rollbackTransaction() throws DaoException {
         try {
             connection.rollback();
             System.out.println("this is roolBack");
         } catch (SQLException e) {
-            throw  new DaoException("Cannot rollback date transaction" , e);
+            throw new DaoException("Cannot rollback date transaction", e);
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        returnConnect();
+        System.out.println("Return Connect");
     }
 }

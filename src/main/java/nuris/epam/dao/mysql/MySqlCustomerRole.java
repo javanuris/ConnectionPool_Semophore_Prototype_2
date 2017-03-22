@@ -19,14 +19,10 @@ public class MySqlCustomerRole  extends CustomerRoleDao{
     private static final String ID_ROLE = "id_role";
 
     private static final String CUSTOMER = "customer";
-    private static final String ID_CUSTOMER = "id_book";
-
+    private static final String ID_CUSTOMER = "id_customer";
     private static final String FIND_BY_CUSTOMER = Sql.create().select().varS(ROLE, ID_ROLE).c().varS(ROLE, NAME).from().var(ROLE).join(CUSTOMER).varS(CUSTOMER, ID_ROLE).eq().varS(ROLE, ID_ROLE).whereQs(CUSTOMER, ID_CUSTOMER).build();
     private static final String FIND_BY_NAME_ROLE = Sql.create().select().allFrom().var(ROLE).whereQs(NAME).build();
 
-    public void sql(){
-        System.out.println(FIND_BY_NAME_ROLE);
-    }
 
     @Override
     public CustomerRole findByCustomer(Customer customer) throws DaoException {

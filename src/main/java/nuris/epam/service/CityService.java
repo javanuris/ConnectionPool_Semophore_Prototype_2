@@ -19,7 +19,7 @@ public class CityService {
 
     CityService(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
-        generalService = new GeneralService(TypeDao.getInstance().getCityDao(), daoFactory);
+        generalService = new GeneralService(new TypeDao().getCityDao(), daoFactory);
     }
     public City findByCity(int id) throws ServiceException {
         City city;
@@ -40,7 +40,7 @@ public class CityService {
         generalService.delete(city);
     }
 
-    public void findByCity(Person person) throws ServiceException {
+    public void findByPerson(Person person) throws ServiceException {
         try {
             DaoFactory daoFactory = new DaoFactory();
 

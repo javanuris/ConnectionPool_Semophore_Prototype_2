@@ -19,7 +19,7 @@ public class PublisherService {
 
     PublisherService(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
-        generalService = new GeneralService(TypeDao.getInstance().getPublisherDao(), daoFactory);
+        generalService = new GeneralService(new TypeDao().getPublisherDao(), daoFactory);
     }
 
     public Publisher findByPublisher(int id) throws ServiceException {

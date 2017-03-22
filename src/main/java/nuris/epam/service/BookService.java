@@ -17,7 +17,7 @@ import java.util.List;
 public class BookService {
 
     DaoFactory daoFactory = new DaoFactory();
-    private GeneralService generalService = new GeneralService(TypeDao.getInstance().getBookDao(), daoFactory);
+    private GeneralService generalService = new GeneralService(new TypeDao().getBookDao(), daoFactory);
     private AuthorService authorService = new AuthorService(daoFactory);
     private PublisherService publisherService = new PublisherService(daoFactory);
     private GenreService genreService = new GenreService(daoFactory);
@@ -26,8 +26,10 @@ public class BookService {
     public Book findById(int id) throws ServiceException {
         Book book;
         book = (Book) generalService.findById(id);
-        fillBook(book);
+        fillBook(book); daoFactory.returnConnect();
+        daoFactory.returnConnect();
         return book;
+
     }
 
     public Book insert(Book book) throws ServiceException {

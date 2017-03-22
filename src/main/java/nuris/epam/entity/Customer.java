@@ -70,6 +70,6 @@ public class Customer extends BaseEntity {
 
     @Override
     public String toString() {
-        return getId() + "/" + registerDate + "/" + login + "/" + password;
+        return getId() + "/" + registerDate + "/" + login + "/" + password +""+person +" "+customerRole ;
     }
 }

@@ -58,6 +58,7 @@ public class ResourcesQueue<T> {
      * Возвращяет коннект обратно в списокк инизиализирванных коннекто
      */
     public void returnResource(T res) {
+
         resource.add(res);
         semaphore.release();
     }
