@@ -17,28 +17,26 @@ public class GenreService {
 
     public List<Genre> getAll() throws ServiceException {
         List<Genre> list;
-        DaoFactory daoFactory = new DaoFactory();
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            list = genreDao.getAll();
-            return list;
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
+                list = genreDao.getAll();
+                return list;
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getAll", e);
-        } finally {
-            daoFactory.returnConnect();
+            throw new ServiceException("Cannot update date", e);
         }
     }
 
-    public void findByGenre(Book book) throws ServiceException {
-        DaoFactory daoFactory = new DaoFactory();
+    public void findByBook(Book book) throws ServiceException {
         try {
-            GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
-            book.setGenre(genreDao.findByBook(book));
+            try (DaoFactory daoFactory = new DaoFactory()) {
+                GenreDao genreDao = (GenreDao) daoFactory.getDao(daoFactory.typeDao().getGenreDao());
+                book.setGenre(genreDao.findByBook(book));
+            }
         } catch (DaoException e) {
-            throw new ServiceException("Cannot getBook", e);
-        } finally {
-            daoFactory.returnConnect();
+            throw new ServiceException("Cannot update date", e);
         }
-    }
 
+    }
 }

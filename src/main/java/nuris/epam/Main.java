@@ -3,8 +3,8 @@ package nuris.epam;
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.entity.*;
 import nuris.epam.service.CustomerService;
-import nuris.epam.service.PersonService;
 import nuris.epam.service.exception.ServiceException;
+import nuris.epam.service.util.SqlDate;
 
 import java.util.Calendar;
 
@@ -14,7 +14,7 @@ import java.util.Calendar;
 public class Main {
 
     public static void main(String[] args) throws ServiceException {
-        java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         System.out.println(connectionPool.size());
         CustomerService customerService = new CustomerService();
@@ -24,24 +24,21 @@ public class Main {
         city.setId(1);
         Person person = new Person();
         person.setCity(city);
-        person.setId(14);
+       // person.setId(14);
         person.setFirstName("Mars");
         person.setLastName("Moon");
-        person.setMiddleName("NUROSPASWORF");
-        person.setPhone("NUROSPASWORF//NUROSPASWORF");
+        person.setMiddleName("Zooooo");
+        person.setPhone("Zooooo//Zooooo");
         person.setAdreess("NUROSPASWORF");
-        person.setBirthday(date);
+        person.setBirthday(SqlDate.stringToDate("1996-07-08"));
 
-        Customer customer = new Customer();
-        customer.setId(3);
+      CustomerService customers = new CustomerService();
+        Customer  customer = customers.findCustomer(341);
         customer.setPerson(person);
-        customer.setPassword("NURIS");
-        customer.setLogin("Mars");
-        customer.setRegisterDate(date);
-
-
-        customerService.registerCustomer(customer);
-        System.out.println(customerService.findByCustomer(3));
+        customer.setPassword("Zooooo");
+        customer.setLogin("Mama");
+        customerService.updateCustomer(customer);
+        System.out.println(customerService.findCustomer(341));
         System.out.println(connectionPool.size());
 
 
