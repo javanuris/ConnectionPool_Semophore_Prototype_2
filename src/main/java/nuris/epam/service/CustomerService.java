@@ -21,6 +21,8 @@ import java.util.List;
 public class CustomerService {
     private String USER_ROLE = "user";
 
+//cheek login valible
+
     public void registerCustomer(Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
@@ -28,6 +30,7 @@ public class CustomerService {
                 CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
                 CustomerRoleDao customerRoleDao = (CustomerRoleDao) daoFactory.getDao(daoFactory.typeDao().getCustomerRoleDao());
                 CustomerRole customerRole = customerRoleDao.findRoleByName(USER_ROLE);
+
                 daoFactory.startTransaction();
                 personDao.insert(customer.getPerson());
                 customer.setCustomerRole(customerRole);
@@ -46,28 +49,57 @@ public class CustomerService {
         }
     }
 
-    public void updateCustomer(Customer customer) throws ServiceException{
+    public Customer findLogin(String login) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Customer customer;
+            try {
+                CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
+                customer = customerDao.getCustomer(login);
+                fillCustomer(customer);
+                return customer;
+            } catch (DaoException e) {
+                throw new ServiceException("can't update date from base(updateCustomer())", e);
+            }
+        }
+    }
+
+    public Customer findLoginPassword(String login, String password) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            Customer customer;
+            try {
+                CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
+                customer = customerDao.getCustomer(login, password);
+                fillCustomer(customer);
+                return customer;
+            } catch (DaoException e) {
+                throw new ServiceException("can't update date from base(updateCustomer())", e);
+            }
+        }
+    }
+
+    public void updateCustomer(Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
                 PersonDao personDao = (PersonDao) daoFactory.getDao(daoFactory.typeDao().getPersonDao());
                 CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
-
-                daoFactory.startTransaction();
                 Person person = personDao.findByCustomer(customer);
-                personDao.update(person);
+                customer.setPerson(person);
                 customerDao.update(customer);
-                daoFactory.commitTransaction();
-
             } catch (DaoException e) {
-                try {
-                    daoFactory.rollbackTransaction();
-                } catch (DaoException e1) {
-                    throw new ServiceException("doesn't work rollback(delete)", e);
-                }
-                throw new ServiceException("can't delete date from base(updateCustomer())", e);
+                throw new ServiceException("can't update date from base(updateCustomer())", e);
             }
         }
+    }
 
+    public void updatePerson(Customer customer) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            try {
+                PersonDao personDao = (PersonDao) daoFactory.getDao(daoFactory.typeDao().getPersonDao());
+                personDao.update(customer.getPerson());
+            } catch (DaoException e) {
+                throw new ServiceException("can't update date from base(updatePerson))", e);
+            }
+        }
     }
 
     public void deleteCustomer(Customer customer) throws ServiceException {
@@ -93,24 +125,9 @@ public class CustomerService {
         }
     }
 
-
-    public Customer findCustomer(int id) throws ServiceException {
-        try (DaoFactory daoFactory = new DaoFactory()) {
-            try {
-                Customer customer;
-                CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
-                customer = customerDao.findById(id);
-                fillCustomer(customer);
-                return customer;
-            } catch (DaoException e) {
-                throw new ServiceException("can't find date in base", e);
-            }
-        }
-    }
-
-    public void fillCustomer(Customer customer) throws ServiceException {
+    private void fillCustomer(Customer customer) throws ServiceException {
         try {
-            if(customer!=null) {
+            if (customer != null) {
                 try (DaoFactory daoFactory = new DaoFactory()) {
 
                     PersonDao personDao = (PersonDao) daoFactory.getDao(daoFactory.typeDao().getPersonDao());

@@ -2,6 +2,7 @@ package nuris.epam;
 
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.entity.*;
+import nuris.epam.service.BookService;
 import nuris.epam.service.CustomerService;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
@@ -23,24 +24,21 @@ public class Main {
         City city = new City();
         city.setId(1);
         Person person = new Person();
-        person.setCity(city);
-       // person.setId(14);
-        person.setFirstName("Mars");
-        person.setLastName("Moon");
-        person.setMiddleName("Zooooo");
-        person.setPhone("Zooooo//Zooooo");
-        person.setAdreess("NUROSPASWORF");
-        person.setBirthday(SqlDate.stringToDate("1996-07-08"));
+
 
       CustomerService customers = new CustomerService();
-        Customer  customer = customers.findCustomer(341);
-        customer.setPerson(person);
-        customer.setPassword("Zooooo");
-        customer.setLogin("Mama");
-        customerService.updateCustomer(customer);
-        System.out.println(customerService.findCustomer(341));
-        System.out.println(connectionPool.size());
+        person.setCity(city);
+        person.setFirstName("Mars");
+        person.setLastName("LUUN");
+        person.setMiddleName("Zooooппппo");
+        person.setPhone("Zooooo//Zooooo");
+        person.setAdreess("NUROSPASWORF");
+        person.setBirthday(SqlDate.stringToDate("1997-07-08"));
 
+        System.out.println(connectionPool.size());
+        BookService bookService = new BookService();
+        Book book = bookService.findById(9);
+        System.out.println(book);
 
     }
 }
