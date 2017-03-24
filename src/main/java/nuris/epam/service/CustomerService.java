@@ -42,14 +42,14 @@ public class CustomerService {
                 try {
                     daoFactory.rollbackTransaction();
                 } catch (DaoException e1) {
-                    throw new ServiceException("doesn't work rollback", e);
+                    throw new ServiceException("can't rollback transaction", e);
                 }
-                throw new ServiceException("cannot insert date to base", e);
+                throw new ServiceException("can't register customer", e);
             }
         }
     }
 
-    public Customer findLogin(String login) throws ServiceException {
+    public Customer findByLogin(String login) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Customer customer;
             try {
@@ -58,12 +58,12 @@ public class CustomerService {
                 fillCustomer(customer);
                 return customer;
             } catch (DaoException e) {
-                throw new ServiceException("can't update date from base(updateCustomer())", e);
+                throw new ServiceException("can't find bu login customer", e);
             }
         }
     }
 
-    public Customer findLoginPassword(String login, String password) throws ServiceException {
+    public Customer findByLoginPassword(String login, String password) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             Customer customer;
             try {
@@ -72,7 +72,7 @@ public class CustomerService {
                 fillCustomer(customer);
                 return customer;
             } catch (DaoException e) {
-                throw new ServiceException("can't update date from base(updateCustomer())", e);
+                throw new ServiceException("can't find by login and password customer", e);
             }
         }
     }
@@ -86,7 +86,7 @@ public class CustomerService {
                 customer.setPerson(person);
                 customerDao.update(customer);
             } catch (DaoException e) {
-                throw new ServiceException("can't update date from base(updateCustomer())", e);
+                throw new ServiceException("can't update customer ", e);
             }
         }
     }
@@ -97,7 +97,7 @@ public class CustomerService {
                 PersonDao personDao = (PersonDao) daoFactory.getDao(daoFactory.typeDao().getPersonDao());
                 personDao.update(customer.getPerson());
             } catch (DaoException e) {
-                throw new ServiceException("can't update date from base(updatePerson))", e);
+                throw new ServiceException("can't update person", e);
             }
         }
     }
@@ -118,9 +118,9 @@ public class CustomerService {
                 try {
                     daoFactory.rollbackTransaction();
                 } catch (DaoException e1) {
-                    throw new ServiceException("doesn't work rollback(delete)", e);
+                    throw new ServiceException("can't rollback transaction", e);
                 }
-                throw new ServiceException("can't delete date from base(deleteCustomer())", e);
+                throw new ServiceException("can't delete customer", e);
             }
         }
     }
@@ -141,7 +141,7 @@ public class CustomerService {
                 }
             }
         } catch (DaoException e) {
-            throw new ServiceException("Can't fill  date", e);
+            throw new ServiceException("Can't fill customer ", e);
         }
     }
 
@@ -154,8 +154,19 @@ public class CustomerService {
                 return list;
             }
         } catch (DaoException e) {
-            throw new ServiceException("Can't getAllCity date", e);
+            throw new ServiceException("Can't get all city", e);
         }
     }
 
+    public int customerCount() throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            try {
+                CustomerDao customerDao = (CustomerDao) daoFactory.getDao(daoFactory.typeDao().getCustomerDao());
+                int count = customerDao.getCustomerCount();
+                return count;
+            } catch (DaoException e) {
+                throw new ServiceException("can't get count customer", e);
+            }
+        }
+    }
 }

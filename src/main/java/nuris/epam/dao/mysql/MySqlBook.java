@@ -33,6 +33,7 @@ public class MySqlBook extends BookDao {
     private static final String COUNT_BOOK = Sql.create().select().count().from().var(BOOK).build();
     private static final String LIMIT_BOOK = Sql.create().select().allFrom().var(BOOK).limit().build();
     private static final String LIMIT_BOOK_BY_GENRE = Sql.create().select().allFrom().var(BOOK).whereQs(ID_GENRE).limit().build();
+    private static final String FIND_BY_NAME = Sql.create().select().allFrom().var(BOOK).whereQs(NAME).build();
 
     @Override
     public Book insert(Book item) throws DaoException {
@@ -151,6 +152,24 @@ public class MySqlBook extends BookDao {
             throw new DaoException("Can not get getLimitListByGenre from " + this.getClass().getSimpleName(), e);
         }
         return list;
+    }
+
+    @Override
+    public Book findByName(String name) throws DaoException {
+        Book book = null;
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_NAME)) {
+                statement.setString(1, name);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        book = itemBook(book, resultSet);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not findByLogin from " + this.getClass().getSimpleName(), e);
+        }
+        return book;
     }
 
     private Book itemBook(Book book, ResultSet resultSet) throws SQLException {

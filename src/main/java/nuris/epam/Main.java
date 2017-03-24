@@ -7,7 +7,6 @@ import nuris.epam.service.CustomerService;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
 
-import java.util.Calendar;
 
 /**
  * Created by User on 09.03.2017.
@@ -37,8 +36,9 @@ public class Main {
 
         System.out.println(connectionPool.size());
         BookService bookService = new BookService();
-        Book book = bookService.findById(9);
-        System.out.println(book);
+        Book book = bookService.getBookByName("Morfi");
+        System.out.println(bookService.getBookCount());
+
 
     }
 }
