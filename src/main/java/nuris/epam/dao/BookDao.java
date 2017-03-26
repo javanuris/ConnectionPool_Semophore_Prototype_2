@@ -2,6 +2,7 @@ package nuris.epam.dao;
 
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Book;
+import nuris.epam.entity.BookInfo;
 import nuris.epam.entity.Genre;
 
 import java.util.List;
@@ -18,5 +19,7 @@ public abstract class BookDao extends BaseDao<Book>{
     public abstract List<Book> getLimitBookByGenre(Genre genre ,int start , int count) throws DaoException;
 
     public abstract Book findByName(String name) throws  DaoException;
+
+    public abstract Book findByBookInfo(BookInfo bookInfo) throws  DaoException;
 
 }

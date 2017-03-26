@@ -75,6 +75,15 @@ public class TypeDao {
             return MySqlCustomer.class;
         }
     }
+
+    public Class getBookInfoDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlBookInfo.class;
+        } else {
+            return MySqlBookInfo.class;
+        }
+    }
+
     public static TypeDao getInstance() {
         if (typeDao == null) {
             typeDao = new TypeDao();

@@ -4,6 +4,7 @@ import nuris.epam.dao.BookDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.entity.Author;
 import nuris.epam.entity.Book;
+import nuris.epam.entity.BookInfo;
 import nuris.epam.entity.Genre;
 
 import java.sql.PreparedStatement;
@@ -23,17 +24,24 @@ public class MySqlBook extends BookDao {
     private static final String NAME = "name";
     private static final String YEAR = "year";
     private static final String ISBN = "isbn";
+    private static final String DESCRIPTION = "description";
     private static final String ID_AUTHOR = "id_author";
     private static final String ID_GENRE = "id_genre";
+    private static final String BOOK_INFO = "book_info";
+    private static final String ID_BOOK_INFO = "id_book_info";
 
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(BOOK).whereQs(ID_BOOK).build();
     private static final String INSERT = Sql.create().insert().var(BOOK).values(ID_BOOK, 6).build();
-    private static final String UPDATE = Sql.create().update().var(BOOK).set().varQs(NAME).c().varQs(YEAR).c().varQs(ISBN).c().varQs(ID_GENRE).c().varQs(ID_AUTHOR).c().whereQs(ID_BOOK).build();
+    private static final String UPDATE = Sql.create().update().var(BOOK).set().varQs(NAME).c().varQs(YEAR).c().varQs(ISBN).c().varQs(DESCRIPTION).c().varQs(ID_GENRE).c().varQs(ID_AUTHOR).c().whereQs(ID_BOOK).build();
     private static final String DELETE = Sql.create().delete().var(BOOK).whereQs(ID_BOOK).build();
     private static final String COUNT_BOOK = Sql.create().select().count().from().var(BOOK).build();
     private static final String LIMIT_BOOK = Sql.create().select().allFrom().var(BOOK).limit().build();
     private static final String LIMIT_BOOK_BY_GENRE = Sql.create().select().allFrom().var(BOOK).whereQs(ID_GENRE).limit().build();
     private static final String FIND_BY_NAME = Sql.create().select().allFrom().var(BOOK).whereQs(NAME).build();
+    private static final String FIND_BY_BOOK = Sql.create().select().varS(BOOK, ID_BOOK).c().varS(BOOK, NAME).c().varS(BOOK, YEAR).c().varS(BOOK, ISBN).c().varS(BOOK, DESCRIPTION).c().varS(BOOK, ID_GENRE).c().varS(BOOK, ID_AUTHOR).from()
+            .var(BOOK).join(BOOK_INFO).varS(BOOK_INFO, ID_BOOK).eq().varS(BOOK, ID_BOOK).whereQs(BOOK_INFO, ID_BOOK_INFO).build();
+
+
 
     @Override
     public Book insert(Book item) throws DaoException {
@@ -172,12 +180,32 @@ public class MySqlBook extends BookDao {
         return book;
     }
 
+    @Override
+    public Book findByBookInfo(BookInfo bookInfo) throws DaoException {
+        Book book = null;
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_BOOK)) {
+                statement.setInt(1, bookInfo.getId());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        book = itemBook(book, resultSet);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not insert by BOOK from " + this.getClass().getSimpleName(), e);
+        }
+        return book;
+    }
+
+
     private Book itemBook(Book book, ResultSet resultSet) throws SQLException {
         book = new Book();
         book.setId(resultSet.getInt(1));
         book.setName(resultSet.getString(2));
         book.setDate(resultSet.getDate(3));
         book.setIsbn(resultSet.getString(4));
+        book.setDescription(resultSet.getString(5));
         return book;
     }
 
@@ -185,8 +213,9 @@ public class MySqlBook extends BookDao {
         statement.setString(1, item.getName());
         statement.setDate(2, item.getDate());
         statement.setString(3, item.getIsbn());
-        statement.setInt(4, item.getGenre().getId());
-        statement.setInt(5, item.getAuthor().getId());
+        statement.setString(4, item.getDescription());
+        statement.setInt(5, item.getGenre().getId());
+        statement.setInt(6, item.getAuthor().getId());
         return statement;
     }
 

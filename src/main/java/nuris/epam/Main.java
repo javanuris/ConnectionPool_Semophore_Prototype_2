@@ -1,11 +1,14 @@
 package nuris.epam;
 
 import nuris.epam.connection.ConnectionPool;
+import nuris.epam.dao.mysql.MySqlBookInfo;
 import nuris.epam.entity.*;
 import nuris.epam.service.BookService;
 import nuris.epam.service.CustomerService;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
+
+import java.util.List;
 
 
 /**
@@ -14,31 +17,36 @@ import nuris.epam.service.util.SqlDate;
 public class Main {
 
     public static void main(String[] args) throws ServiceException {
-
         ConnectionPool connectionPool = ConnectionPool.getInstance();
         System.out.println(connectionPool.size());
-        CustomerService customerService = new CustomerService();
-        CustomerRole customerRole = new CustomerRole();
-        customerRole.setId(1);
-        City city = new City();
-        city.setId(1);
-        Person person = new Person();
 
+        Genre genre = new Genre();
+        genre.setId(1);
+        Author author = new Author();
+        author.setFirstName("Nuris");
+        author.setLastName("Kalenov");
+        author.setMiddleName("Temirovich");
+        Book book = new Book();
+        book.setGenre(genre);
+        book.setAuthor(author);
+        book.setDate(SqlDate.currentDateAndTime());
+        book.setDescription("Давный давно");
+        book.setIsbn("1236644");
+        book.setName("Window");
 
-      CustomerService customers = new CustomerService();
-        person.setCity(city);
-        person.setFirstName("Mars");
-        person.setLastName("LUUN");
-        person.setMiddleName("Zooooппппo");
-        person.setPhone("Zooooo//Zooooo");
-        person.setAdreess("NUROSPASWORF");
-        person.setBirthday(SqlDate.stringToDate("1997-07-08"));
+        BookInfo bookInfo = new BookInfo();
+        bookInfo.setAmount(100);
+        bookInfo.setPrice(155);
+        bookInfo.setBook(book);
 
-        System.out.println(connectionPool.size());
         BookService bookService = new BookService();
-        Book book = bookService.getBookByName("Morfi");
-        System.out.println(bookService.getBookCount());
+      //  bookService.registerBook(bookInfo);
 
+        BookInfo bookInfo1 = new BookInfo();
+        bookInfo1.setId(1);
+
+        System.out.println(bookService.findById(10));
+        System.out.println(connectionPool.size());
 
     }
 }
