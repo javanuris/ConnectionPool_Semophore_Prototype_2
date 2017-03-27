@@ -2,9 +2,11 @@ package nuris.epam;
 
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.dao.mysql.MySqlBookInfo;
+import nuris.epam.dao.mysql.MySqlTransaction;
 import nuris.epam.entity.*;
 import nuris.epam.service.BookService;
 import nuris.epam.service.CustomerService;
+import nuris.epam.service.TransactionService;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
 
@@ -35,17 +37,21 @@ public class Main {
         book.setName("Window");
 
         BookInfo bookInfo = new BookInfo();
-        bookInfo.setAmount(100);
-        bookInfo.setPrice(155);
-        bookInfo.setBook(book);
+        bookInfo.setId(10);
+
 
         BookService bookService = new BookService();
-      //  bookService.registerBook(bookInfo);
 
-        BookInfo bookInfo1 = new BookInfo();
-        bookInfo1.setId(1);
+        TransactionService transactionService = new TransactionService();
 
-        System.out.println(bookService.findById(10));
+        Customer customer = new Customer();
+        customer.setId(7);
+        Transaction transaction =  new Transaction();
+        transaction.setId(12);
+        transaction.setCustomer(customer);
+        transaction.setBookInfo(bookInfo);
+       // transactionService.takeBook(transaction);
+        transactionService.returnBook(transaction, customer);
         System.out.println(connectionPool.size());
 
     }

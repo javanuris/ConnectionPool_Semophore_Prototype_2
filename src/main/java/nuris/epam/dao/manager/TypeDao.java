@@ -84,6 +84,14 @@ public class TypeDao {
         }
     }
 
+    public Class getTransactionDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlTransaction.class;
+        } else {
+            return MySqlTransaction.class;
+        }
+    }
+
     public static TypeDao getInstance() {
         if (typeDao == null) {
             typeDao = new TypeDao();

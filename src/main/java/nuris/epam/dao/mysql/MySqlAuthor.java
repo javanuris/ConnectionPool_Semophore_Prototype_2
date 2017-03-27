@@ -27,8 +27,7 @@ public class MySqlAuthor extends AuthorDao {
     private static final String UPDATE = Sql.create().update().var(AUTHOR).set().varQs(FIRST_NAME).c().varQs(LAST_NAME).c().varQs(MIDDLE_NAME).whereQs(ID_AUTHOR).build();
     private static final String DELETE = Sql.create().delete().var(AUTHOR).whereQs(ID_AUTHOR).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(AUTHOR).build();
-    private static final String FIND_BY_BOOK = Sql.create().select().varS(AUTHOR, ID_AUTHOR).c().varS(AUTHOR, FIRST_NAME).c().varS(AUTHOR, LAST_NAME).c().varS(AUTHOR, MIDDLE_NAME).from()
-            .var(AUTHOR).join(BOOK).varS(BOOK, ID_AUTHOR).eq().varS(AUTHOR, ID_AUTHOR).whereQs(BOOK, ID_BOOK).build();
+    private static final String FIND_BY_BOOK = Sql.create().select().varS(AUTHOR, ID_AUTHOR).c().varS(AUTHOR, FIRST_NAME).c().varS(AUTHOR, LAST_NAME).c().varS(AUTHOR, MIDDLE_NAME).from().var(AUTHOR).join(BOOK).varS(BOOK, ID_AUTHOR).eq().varS(AUTHOR, ID_AUTHOR).whereQs(BOOK, ID_BOOK).build();
 
     @Override
     public Author insert(Author item) throws DaoException {

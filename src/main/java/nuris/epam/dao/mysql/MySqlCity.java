@@ -22,7 +22,6 @@ public class MySqlCity extends CityDao {
     public static final String PERSON = "person";
     public static final String ID_PERSON = "id_person";
 
-    private static final String FIND_BY_ID = Sql.create().select().allFrom().var(CITY).whereQs(ID_CITY).build();
     private static final String SELECT_ALL = Sql.create().select().allFrom().var(CITY).build();
     private static final String FIND_BY_PERSON = Sql.create().select().varS(CITY, ID_CITY).c()
             .varS(CITY, NAME).from().var(CITY).join(PERSON).varS(PERSON, ID_CITY).eq()
@@ -46,20 +45,7 @@ public class MySqlCity extends CityDao {
 
     @Override
     public City findById(int id) throws DaoException {
-        City city = null;
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_ID)) {
-                statement.setInt(1, id);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        city = itemCity(city, resultSet);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
-        }
-        return city;
+        return null;
     }
 
     @Override
