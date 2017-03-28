@@ -27,6 +27,7 @@ public class MySqlBook extends BookDao {
     private static final String DESCRIPTION = "description";
     private static final String ID_AUTHOR = "id_author";
     private static final String ID_GENRE = "id_genre";
+
     private static final String BOOK_INFO = "book_info";
     private static final String ID_BOOK_INFO = "id_book_info";
 

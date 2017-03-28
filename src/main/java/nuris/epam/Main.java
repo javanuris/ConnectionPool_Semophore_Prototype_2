@@ -3,9 +3,11 @@ package nuris.epam;
 import nuris.epam.connection.ConnectionPool;
 import nuris.epam.dao.mysql.MySqlBookInfo;
 import nuris.epam.dao.mysql.MySqlTransaction;
+import nuris.epam.dao.mysql.Sql;
 import nuris.epam.entity.*;
 import nuris.epam.service.BookService;
 import nuris.epam.service.CustomerService;
+import nuris.epam.service.ManagementService;
 import nuris.epam.service.TransactionService;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
@@ -47,18 +49,14 @@ public class Main {
         Customer customer = new Customer();
         customer.setId(7);
         Transaction transaction =  new Transaction();
-        transaction.setId(12);
+        transaction.setId(13);
         transaction.setCustomer(customer);
         transaction.setBookInfo(bookInfo);
 
-        List<Transaction> list = transactionService.findByCustomer(transaction);
-        for(Transaction transaction1 : list){
-            System.out.println(transaction1);
-        }
-
-
-        transactionService.takeBook(transaction);
-        //transactionService.returnBook(transaction, customer);
+        Management management = new Management();
+        management.setId(7);
+        ManagementService managementService = new ManagementService();
+        managementService.returnBook(management);
         System.out.println(connectionPool.size());
 
     }

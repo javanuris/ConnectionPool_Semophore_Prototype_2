@@ -22,7 +22,6 @@ public class MySqlManagement extends ManagementDao {
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(MANAGEMENT).whereQs(ID_MANAGEMENT).build();
     private static final String INSERT = Sql.create().insert().var(MANAGEMENT).values(ID_MANAGEMENT, 2).build();
     private static final String UPDATE = Sql.create().update().var(MANAGEMENT).set().varQs(RETURN_DATE).c().varQs(ID_TRANSACTION).whereQs(ID_MANAGEMENT).build();
-    private static final String DELETE = Sql.create().delete().var(MANAGEMENT).whereQs(ID_MANAGEMENT).build();
   ///  private static final String FIND_BY_CUSTOMER = Sql.create().select().allFrom().var(TRANSACTION).whereQs(ID_CUSTOMER).build();
 
 
@@ -66,7 +65,7 @@ public class MySqlManagement extends ManagementDao {
         try {
             try (PreparedStatement statement = getConnection().prepareStatement(UPDATE)) {
                 statementManagement(statement, item);
-                statement.setInt(5, item.getId());
+                statement.setInt(3, item.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -76,14 +75,6 @@ public class MySqlManagement extends ManagementDao {
 
     @Override
     public void delete(Management item) throws DaoException {
-        try {
-            try (PreparedStatement statement = getConnection().prepareStatement(DELETE)) {
-                statement.setInt(1, item.getId());
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Cannot delete Management entity from " + this.getClass().getSimpleName() + "/" + item, e);
-        }
     }
 
     private Management itemManagement(Management management, ResultSet resultSet) throws SQLException {

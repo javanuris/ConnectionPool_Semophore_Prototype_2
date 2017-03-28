@@ -1,11 +1,13 @@
 package nuris.epam.service;
 
 import nuris.epam.dao.BookInfoDao;
+import nuris.epam.dao.ManagementDao;
 import nuris.epam.dao.TransactionDao;
 import nuris.epam.dao.exception.DaoException;
 import nuris.epam.dao.manager.DaoFactory;
 import nuris.epam.entity.BookInfo;
 import nuris.epam.entity.Customer;
+import nuris.epam.entity.Management;
 import nuris.epam.entity.Transaction;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
@@ -50,21 +52,23 @@ public class TransactionService {
     public Transaction returnBook(Transaction transaction, Customer customer) throws ServiceException {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
-                BookService bookService = new BookService();
+                Management management = new Management();
                 TransactionDao transactionDao = (TransactionDao) daoFactory.getDao(daoFactory.typeDao().getTransactionDao());
+                ManagementDao managementDao = (ManagementDao) daoFactory.getDao(daoFactory.typeDao().getManagementDao());
                 BookInfoDao bookInfoDao = (BookInfoDao) daoFactory.getDao(daoFactory.typeDao().getBookInfoDao());
-                transaction = transactionDao.findById(transaction.getId());
                 BookInfo bookInfo = bookInfoDao.findByTransaction(transaction);
-                bookInfo.setAmount(bookInfo.getAmount() + 1);
+                transaction = transactionDao.findById(transaction.getId());
+                management.setTransaction(transaction);
                 transaction.setBookInfo(bookInfo);
                 transaction.setCustomer(customer);
-                transaction.setEndDate(SqlDate.currentDateAndTime());
 
                 if (transaction.getEndDate() == null) {
+                    transaction.setEndDate(SqlDate.currentDateAndTime());
                     daoFactory.startTransaction();
                     transactionDao.update(transaction);
-                    bookService.updateBookInfo(bookInfo);
+                    managementDao.insert(management);
                     daoFactory.commitTransaction();
+
                 } else {
                     System.out.println("Operation already executed");
                 }

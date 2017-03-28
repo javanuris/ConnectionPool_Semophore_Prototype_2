@@ -29,4 +29,9 @@ public class Management extends BaseEntity {
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
     }
+
+    @Override
+    public String toString() {
+        return getId()+ "/"+returnDate+"/"+transaction;
+    }
 }
