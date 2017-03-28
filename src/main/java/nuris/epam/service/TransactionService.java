@@ -10,6 +10,8 @@ import nuris.epam.entity.Transaction;
 import nuris.epam.service.exception.ServiceException;
 import nuris.epam.service.util.SqlDate;
 
+import java.util.List;
+
 
 /**
  * Created by User on 27.03.2017.
@@ -30,7 +32,6 @@ public class TransactionService {
                     transaction.setStartDate(SqlDate.currentDateAndTime());
                     transaction = transactionDao.insert(transaction);
                     daoFactory.commitTransaction();
-
                 } else {
                     System.out.println("Книг нет");
                 }
@@ -41,10 +42,9 @@ public class TransactionService {
                 } catch (DaoException e1) {
                     e1.printStackTrace();
                 }
-                throw new ServiceException("can't find bu login customer", e);
+                throw new ServiceException("can't take book", e);
             }
         }
-
     }
 
     public Transaction returnBook(Transaction transaction, Customer customer) throws ServiceException {
@@ -60,10 +60,14 @@ public class TransactionService {
                 transaction.setCustomer(customer);
                 transaction.setEndDate(SqlDate.currentDateAndTime());
 
-                daoFactory.startTransaction();
-                transactionDao.update(transaction);
-                bookService.updateBookInfo(bookInfo);
-                daoFactory.commitTransaction();
+                if (transaction.getEndDate() == null) {
+                    daoFactory.startTransaction();
+                    transactionDao.update(transaction);
+                    bookService.updateBookInfo(bookInfo);
+                    daoFactory.commitTransaction();
+                } else {
+                    System.out.println("Operation already executed");
+                }
                 return transaction;
 
             } catch (DaoException e) {
@@ -72,9 +76,46 @@ public class TransactionService {
                 } catch (DaoException e1) {
                     e1.printStackTrace();
                 }
-                throw new ServiceException("can't find bu login customer", e);
+                throw new ServiceException("can't return book", e);
             }
         }
+    }
 
+    public List<Transaction> findByCustomer(Transaction transaction) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            try {
+                TransactionDao transactionDao = (TransactionDao) daoFactory.getDao(daoFactory.typeDao().getTransactionDao());
+                List<Transaction> list = transactionDao.findByCustomer(transaction);
+                return list;
+            } catch (DaoException e) {
+                throw new ServiceException("can't get list of customer", e);
+            }
+        }
+    }
+
+    public void deleteTransaction(Transaction transaction) throws ServiceException {
+        try (DaoFactory daoFactory = new DaoFactory()) {
+            try {
+                TransactionDao transactionDao = (TransactionDao) daoFactory.getDao(daoFactory.typeDao().getTransactionDao());
+                transactionDao.delete(transaction);
+            } catch (DaoException e) {
+                throw new ServiceException("can't delete transaction", e);
+            }
+        }
+    }
+
+    //проверка на наличие книг
+    public boolean isAlreadyTaken() {
+        return false;
+    }
+
+    // статистика активыных
+    public int getActiveTransaction() {
+        return 0;
+    }
+
+    //что бы выводить название книг
+    public int findByBookInfo() {
+        return 0;
     }
 }

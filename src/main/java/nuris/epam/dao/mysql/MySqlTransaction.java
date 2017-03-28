@@ -2,30 +2,33 @@ package nuris.epam.dao.mysql;
 
 import nuris.epam.dao.TransactionDao;
 import nuris.epam.dao.exception.DaoException;
+import nuris.epam.entity.Customer;
 import nuris.epam.entity.Transaction;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 27.03.2017.
  */
 public class MySqlTransaction extends TransactionDao {
 
-    public static final String TRANSACTION = "transaction";
-    public static final String ID_TRANSACTION = "id_transaction";
-    public static final String START_DATE = "start_date";
-    public static final String END_DATE = "end_date";
-    public static final String ID_BOOK_INFO = "id_book_info";
-    public static final String ID_CUSTOMER = "id_customer";
+    private static final String TRANSACTION = "transaction";
+    private static final String ID_TRANSACTION = "id_transaction";
+    private static final String START_DATE = "start_date";
+    private static final String END_DATE = "end_date";
+    private static final String ID_BOOK_INFO = "id_book_info";
+    private static final String ID_CUSTOMER = "id_customer";
 
     private static final String FIND_BY_ID = Sql.create().select().allFrom().var(TRANSACTION).whereQs(ID_TRANSACTION).build();
     private static final String INSERT = Sql.create().insert().var(TRANSACTION).values(ID_TRANSACTION, 4).build();
     private static final String UPDATE = Sql.create().update().var(TRANSACTION).set().varQs(START_DATE).c().varQs(END_DATE).c().varQs(ID_BOOK_INFO).c().varQs(ID_CUSTOMER).whereQs(ID_TRANSACTION).build();
     private static final String DELETE = Sql.create().delete().var(TRANSACTION).whereQs(ID_TRANSACTION).build();
-
+    private static final String FIND_BY_CUSTOMER = Sql.create().select().allFrom().var(TRANSACTION).whereQs(ID_CUSTOMER).build();
 
     @Override
     public Transaction insert(Transaction item) throws DaoException {
@@ -77,9 +80,34 @@ public class MySqlTransaction extends TransactionDao {
 
     @Override
     public void delete(Transaction item) throws DaoException {
-
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(DELETE)) {
+                statement.setInt(1, item.getId());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Cannot delete Transaction entity from " + this.getClass().getSimpleName() + "/" + item, e);
+        }
     }
 
+    @Override
+    public List<Transaction> findByCustomer(Transaction transaction) throws DaoException {
+        List<Transaction> list = new ArrayList<>();
+        try {
+            try (PreparedStatement statement = getConnection().prepareStatement(FIND_BY_CUSTOMER)) {
+                statement.setInt(1 , transaction.getCustomer().getId());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        transaction = itemTransaction(transaction, resultSet);
+                        list.add(transaction);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Can not get getLimitList from " + this.getClass().getSimpleName(), e);
+        }
+        return list;
+    }
     private Transaction itemTransaction(Transaction transaction, ResultSet resultSet) throws SQLException {
         transaction = new Transaction();
         transaction.setId(resultSet.getInt(1));
@@ -99,4 +127,6 @@ public class MySqlTransaction extends TransactionDao {
         statement.setInt(4, item.getCustomer().getId());
         return statement;
     }
+
+
 }

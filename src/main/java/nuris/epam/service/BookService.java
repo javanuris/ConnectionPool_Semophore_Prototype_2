@@ -127,8 +127,6 @@ public class BookService {
         }
     }
 
-
-
     private void fillBook(Book book) throws ServiceException {
         try {
             if (book != null) {

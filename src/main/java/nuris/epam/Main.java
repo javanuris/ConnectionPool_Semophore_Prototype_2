@@ -50,8 +50,15 @@ public class Main {
         transaction.setId(12);
         transaction.setCustomer(customer);
         transaction.setBookInfo(bookInfo);
-       // transactionService.takeBook(transaction);
-        transactionService.returnBook(transaction, customer);
+
+        List<Transaction> list = transactionService.findByCustomer(transaction);
+        for(Transaction transaction1 : list){
+            System.out.println(transaction1);
+        }
+
+
+        transactionService.takeBook(transaction);
+        //transactionService.returnBook(transaction, customer);
         System.out.println(connectionPool.size());
 
     }

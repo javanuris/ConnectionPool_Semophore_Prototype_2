@@ -91,6 +91,13 @@ public class TypeDao {
             return MySqlTransaction.class;
         }
     }
+    public Class getManagementDao() {
+        if (connectType.getType().equalsIgnoreCase("mysql")) {
+            return MySqlManagement.class;
+        } else {
+            return MySqlManagement.class;
+        }
+    }
 
     public static TypeDao getInstance() {
         if (typeDao == null) {
