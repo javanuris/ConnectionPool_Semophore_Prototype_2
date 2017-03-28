@@ -48,7 +48,7 @@ public class MySqlBookInfo extends BookInfoDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't insert " + this.getClass().getSimpleName() + "/" + item, e);
         }
         return item;
     }
@@ -66,7 +66,7 @@ public class MySqlBookInfo extends BookInfoDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by id " + this.getClass().getSimpleName(), e);
         }
         return bookInfo;
     }
@@ -80,7 +80,7 @@ public class MySqlBookInfo extends BookInfoDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -92,7 +92,7 @@ public class MySqlBookInfo extends BookInfoDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete BookInfo entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't delete " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -124,7 +124,7 @@ public class MySqlBookInfo extends BookInfoDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by book " + this.getClass().getSimpleName(), e);
         }
         return bookInfo;
     }
@@ -142,7 +142,7 @@ public class MySqlBookInfo extends BookInfoDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not find by from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by transaction " + this.getClass().getSimpleName(), e);
         }
         return bookInfo;
     }

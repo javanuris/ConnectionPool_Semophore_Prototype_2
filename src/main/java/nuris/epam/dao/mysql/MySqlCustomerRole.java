@@ -37,7 +37,7 @@ public class MySqlCustomerRole  extends CustomerRoleDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by customer " + this.getClass().getSimpleName(), e);
         }
         return customerRole;
     }
@@ -55,7 +55,7 @@ public class MySqlCustomerRole  extends CustomerRoleDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by role " + this.getClass().getSimpleName(), e);
         }
         return customerRole;
     }

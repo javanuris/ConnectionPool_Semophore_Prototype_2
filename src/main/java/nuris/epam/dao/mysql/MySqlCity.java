@@ -62,7 +62,7 @@ public class MySqlCity extends CityDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get allList from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get all city " + this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -80,7 +80,7 @@ public class MySqlCity extends CityDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by Person from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find city by person " + this.getClass().getSimpleName(), e);
         }
         return city;
     }

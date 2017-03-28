@@ -55,7 +55,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't insert " + this.getClass().getSimpleName() + "/" + item, e);
         }
         return item;
     }
@@ -73,7 +73,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by id" + this.getClass().getSimpleName(), e);
         }
         return book;
     }
@@ -87,7 +87,7 @@ public class MySqlBook extends BookDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -100,7 +100,7 @@ public class MySqlBook extends BookDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete Book entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't delete book " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -114,7 +114,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for counting book", e);
+            throw new DaoException("can't get book count "+ this.getClass().getSimpleName(), e);
         }
         return count;
     }
@@ -135,7 +135,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get getLimitList from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get list of book " + this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -157,7 +157,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get getLimitListByGenre from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get list of book by genre " + this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -175,7 +175,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not findByLogin from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by name " + this.getClass().getSimpleName(), e);
         }
         return book;
     }
@@ -193,7 +193,7 @@ public class MySqlBook extends BookDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by BOOK from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by bookInfo " + this.getClass().getSimpleName(), e);
         }
         return book;
     }

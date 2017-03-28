@@ -45,7 +45,7 @@ public class MySqlCustomer extends CustomerDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't insert " + this.getClass().getSimpleName() + "/" + item, e);
         }
         return item;
     }
@@ -63,7 +63,7 @@ public class MySqlCustomer extends CustomerDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not find by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by id " + this.getClass().getSimpleName(), e);
         }
         return customer;
     }
@@ -77,7 +77,7 @@ public class MySqlCustomer extends CustomerDao{
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update  " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -89,7 +89,7 @@ public class MySqlCustomer extends CustomerDao{
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete Customer entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't delete customer " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -103,7 +103,7 @@ public class MySqlCustomer extends CustomerDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot create statement for counting customer", e);
+            throw new DaoException("can't get count customer "+ this.getClass().getSimpleName() , e);
         }
         return count;
     }
@@ -117,7 +117,7 @@ public class MySqlCustomer extends CustomerDao{
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update avatar " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -134,7 +134,7 @@ public class MySqlCustomer extends CustomerDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not findByLogin from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get by login " + this.getClass().getSimpleName(), e);
         }
         return customer;
     }
@@ -153,7 +153,7 @@ public class MySqlCustomer extends CustomerDao{
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not findByLogin from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get by login and pasdword " + this.getClass().getSimpleName(), e);
         }
         return customer;
     }

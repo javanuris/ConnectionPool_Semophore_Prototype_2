@@ -51,7 +51,7 @@ public class MySqlTransaction extends TransactionDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't insert " + this.getClass().getSimpleName() + "/" + item, e);
         }
         return item;
     }
@@ -69,7 +69,7 @@ public class MySqlTransaction extends TransactionDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by id " + this.getClass().getSimpleName(), e);
         }
         return transaction;
     }
@@ -83,7 +83,7 @@ public class MySqlTransaction extends TransactionDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update" + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -95,7 +95,7 @@ public class MySqlTransaction extends TransactionDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete Transaction entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't delete " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -113,7 +113,7 @@ public class MySqlTransaction extends TransactionDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get getLimitList from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by customer" + this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -131,7 +131,7 @@ public class MySqlTransaction extends TransactionDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by BOOK from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by management " + this.getClass().getSimpleName(), e);
         }
         return transaction;
     }

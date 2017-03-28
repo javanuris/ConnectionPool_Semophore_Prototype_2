@@ -40,7 +40,7 @@ public class MySqlAuthor extends AuthorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't insert " + this.getClass().getSimpleName() + "/" + item, e);
         }
         return item;
     }
@@ -58,7 +58,7 @@ public class MySqlAuthor extends AuthorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by id  " + this.getClass().getSimpleName(), e);
         }
         return author;
     }
@@ -72,7 +72,7 @@ public class MySqlAuthor extends AuthorDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -89,7 +89,7 @@ public class MySqlAuthor extends AuthorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get allList from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get all author " + this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -102,7 +102,7 @@ public class MySqlAuthor extends AuthorDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Cannot delete Author entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't delete author " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 
@@ -119,7 +119,7 @@ public class MySqlAuthor extends AuthorDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by BOOK from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by book " + this.getClass().getSimpleName(), e);
         }
         return author;
     }

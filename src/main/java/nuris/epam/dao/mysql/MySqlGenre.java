@@ -45,7 +45,7 @@ public class MySqlGenre extends GenreDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by id " + this.getClass().getSimpleName(), e);
         }
         return genre;
     }
@@ -75,7 +75,7 @@ public class MySqlGenre extends GenreDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not get allList from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't get all list " + this.getClass().getSimpleName(), e);
         }
         return list;
     }
@@ -94,7 +94,7 @@ public class MySqlGenre extends GenreDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by Book from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("can't find by book " + this.getClass().getSimpleName(), e);
         }
         return genre;
     }

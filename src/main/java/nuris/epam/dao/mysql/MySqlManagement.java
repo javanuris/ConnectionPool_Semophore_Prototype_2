@@ -37,7 +37,7 @@ public class MySqlManagement extends ManagementDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't insert " + this.getClass().getSimpleName() + "/" + item, e);
         }
         return item;
     }
@@ -55,7 +55,7 @@ public class MySqlManagement extends ManagementDao {
                 }
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not insert by id from " + this.getClass().getSimpleName(), e);
+            throw new DaoException("Can find by id " + this.getClass().getSimpleName(), e);
         }
         return management;
     }
@@ -69,7 +69,7 @@ public class MySqlManagement extends ManagementDao {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DaoException("Can not update by entity from " + this.getClass().getSimpleName() + "/" + item, e);
+            throw new DaoException("can't update  " + this.getClass().getSimpleName() + "/" + item, e);
         }
     }
 

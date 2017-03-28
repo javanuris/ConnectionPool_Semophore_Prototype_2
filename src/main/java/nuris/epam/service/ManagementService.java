@@ -48,12 +48,12 @@ public class ManagementService {
                 } catch (DaoException e1) {
                     e1.printStackTrace();
                 }
-                throw new ServiceException("can't insert transaction", e);
+                throw new ServiceException("can't insert transaction ", e);
             }
         }
     }
 
-    public Management findByCustomer(){
+    public Management findByCustomer() {
         return null;
     }
 

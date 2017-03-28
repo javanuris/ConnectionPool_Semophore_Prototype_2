@@ -44,7 +44,7 @@ public class TransactionService {
                 } catch (DaoException e1) {
                     e1.printStackTrace();
                 }
-                throw new ServiceException("can't take book", e);
+                throw new ServiceException("can't take book ", e);
             }
         }
     }
@@ -53,9 +53,11 @@ public class TransactionService {
         try (DaoFactory daoFactory = new DaoFactory()) {
             try {
                 Management management = new Management();
+
                 TransactionDao transactionDao = (TransactionDao) daoFactory.getDao(daoFactory.typeDao().getTransactionDao());
                 ManagementDao managementDao = (ManagementDao) daoFactory.getDao(daoFactory.typeDao().getManagementDao());
                 BookInfoDao bookInfoDao = (BookInfoDao) daoFactory.getDao(daoFactory.typeDao().getBookInfoDao());
+
                 BookInfo bookInfo = bookInfoDao.findByTransaction(transaction);
                 transaction = transactionDao.findById(transaction.getId());
                 management.setTransaction(transaction);
@@ -73,14 +75,13 @@ public class TransactionService {
                     System.out.println("Operation already executed");
                 }
                 return transaction;
-
             } catch (DaoException e) {
                 try {
                     daoFactory.rollbackTransaction();
                 } catch (DaoException e1) {
                     e1.printStackTrace();
                 }
-                throw new ServiceException("can't return book", e);
+                throw new ServiceException("can't return book ", e);
             }
         }
     }
